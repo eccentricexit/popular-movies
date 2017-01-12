@@ -1,24 +1,31 @@
 package com.deltabit.popularmovies;
 
-import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DiscoveryActivity extends AppCompatActivity {
+public class DiscoveryActivity extends AppCompatActivity implements OnTaskComplete {
 
     private static final String LOG_TAG = DiscoveryActivity.class.getSimpleName();
 
@@ -27,6 +34,7 @@ public class DiscoveryActivity extends AppCompatActivity {
     private static String sortFilter = POPULARITY;
 
     @BindView(R.id.gridview_discovery_movies) GridView gridViewMovies;
+    @BindView(R.id.progressbar_discovery) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +52,12 @@ public class DiscoveryActivity extends AppCompatActivity {
         try {
             url = new URL(uri.toString());
         } catch (MalformedURLException e) {
+            showErrorMessage();
             e.printStackTrace();
         }
 
-        new MovieQueryTask().execute(url);
-
+        progressBar.setVisibility(View.VISIBLE);
+        new MovieQueryTask(this).execute(url);
     }
 
     @Override
@@ -70,28 +79,41 @@ public class DiscoveryActivity extends AppCompatActivity {
                 sortFilter = POPULARITY;
                 break;
             }
+            default:{
+                showErrorMessage();
+                break;
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public class MovieQueryTask extends AsyncTask<URL,Void,String>{
 
-        @Override
-        protected String doInBackground(URL... urls) {
-            String results = "";
-            try {
-                results = NetworkUtils.getResponseFromUrl(urls[0]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public void onTaskCompleted(String response) {
+        progressBar.setVisibility(View.INVISIBLE);
 
-            return results;
+        Type listType = new TypeToken<List<Movie>>(){}.getType();
+        JSONObject jsonObject;
+        List<Movie> movies;
+        try {
+            jsonObject = new JSONObject(response);
+            movies = new Gson().fromJson(jsonObject.get("results").toString(),listType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            showErrorMessage();
+            return;
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            Log.i(LOG_TAG,s);
-        }
+        Toast.makeText(this, movies.get(0).getTitle(), Toast.LENGTH_SHORT).show();
+
+        gridViewMovies.setAdapter(new MovieAdapter(this,movies));
     }
+
+    @Override
+    public void showErrorMessage() {
+        Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
+    }
+
+
 }
