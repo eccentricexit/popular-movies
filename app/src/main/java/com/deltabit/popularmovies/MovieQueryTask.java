@@ -42,7 +42,7 @@ public class MovieQueryTask extends AsyncTask<URL,Void,String> {
     @Override
     protected void onPostExecute(String s) {
         if(s!=null && !s.equals("")) {
-            Log.i(LOG_TAG, s);
+//            Log.i(LOG_TAG, s);
             caller.onTaskCompleted(s);
         }
         else

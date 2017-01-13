@@ -5,4 +5,5 @@
     <string name="select_filter">Sort By...</string>
 
     <string name="error_message">An error has occurred, please try again</string>
+    <string name="poster_api_path">http://image.tmdb.org/t/p/w185/</string>
 </resources>

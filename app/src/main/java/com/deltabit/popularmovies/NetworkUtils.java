@@ -3,6 +3,7 @@ package com.deltabit.popularmovies;
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +24,7 @@ public class NetworkUtils {
 
     private static final String PARAM_API_KEY = "api_key";
     private static final String PARAM_SORT_BY = "sort_by";
+    private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
     public static Uri buildUri(Context context, String sortFilter) {
 
@@ -50,6 +52,7 @@ public class NetworkUtils {
     }
 
     public static String getResponseFromUrl(URL url) throws IOException {
+//        Log.i(LOG_TAG,url.toString());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
         try {

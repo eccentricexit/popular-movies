@@ -4,7 +4,7 @@ package com.deltabit.popularmovies;
         import com.google.gson.annotations.Expose;
         import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+public class MovieModel {
 
     @SerializedName("poster_path")
     @Expose
