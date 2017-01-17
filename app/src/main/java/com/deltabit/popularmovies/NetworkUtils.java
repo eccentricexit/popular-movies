@@ -10,6 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -24,6 +27,8 @@ public class NetworkUtils {
 
     private static final String PARAM_API_KEY = "api_key";
     private static final String PARAM_SORT_BY = "sort_by";
+    private static final String PARAM_MAX_RELEASE_DATE = "release_date.lte";
+
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
     public static Uri buildUri(Context context, String sortFilter) {
@@ -34,22 +39,19 @@ public class NetworkUtils {
                 .appendPath(MOVIE_URL)
                 .appendQueryParameter(PARAM_API_KEY, context.getString(R.string.api_key))
                 .appendQueryParameter(PARAM_SORT_BY, sortFilter)
+                .appendQueryParameter(PARAM_MAX_RELEASE_DATE,getCurrentDate())
                 .build();
+
+//        Log.i(LOG_TAG,uri.toString());
 
         return uri;
     }
 
-    public static Uri buildUri(Context context) {
+    private static String getCurrentDate() {
 
-        android.net.Uri uri = android.net.Uri.parse(TMDB_BASE_URL)
-                .buildUpon()
-                .appendPath(DISCOVER_URL)
-                .appendPath(MOVIE_URL)
-                .appendQueryParameter(PARAM_API_KEY,context.getString(R.string.api_key))
-                .build();
-
-        return uri;
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     }
+
 
     public static String getResponseFromUrl(URL url) throws IOException {
 //        Log.i(LOG_TAG,url.toString());

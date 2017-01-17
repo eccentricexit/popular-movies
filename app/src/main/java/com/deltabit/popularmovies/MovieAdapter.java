@@ -50,11 +50,6 @@ public class MovieAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        return buildMovieItem(position, convertView);
-    }
-
-    @NonNull
-    private View buildMovieItem(int position, View convertView) {
         View itemView;
         final MovieModel movieModel = movies.get(position);
 
@@ -74,18 +69,19 @@ public class MovieAdapter extends BaseAdapter {
             }
         });
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageview_item_discovery);
-        loadImageInto(imageView, movieModel);
+
+        if(movieModel.getPosterPath()!=null && !movieModel.getPosterPath().equals("")) {
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageview_item_discovery);
+
+            String posterPath = context.getString(R.string.poster_api_path);
+            posterPath = posterPath + movieModel.getPosterPath();
+            Picasso.with(context).load(posterPath).into(imageView);
+        }else{
+            Log.e(LOG_TAG,"error, missing posterPath on "+movieModel.getTitle()+" movie model.");
+        }
 
         return itemView;
     }
-
-    private void loadImageInto(ImageView imageView,MovieModel movieModel) {
-        String posterPath = context.getString(R.string.poster_api_path);
-        posterPath = posterPath + movieModel.getPosterPath();
-        Picasso.with(context).load(posterPath).into(imageView);
-    }
-
 
     public void update(List<MovieModel> newMovies) {
 //        Log.i(LOG_TAG,"Current movies list item count: "+movies.size());
@@ -95,9 +91,11 @@ public class MovieAdapter extends BaseAdapter {
         }
 
         movies.clear();
-        movies.addAll(newMovies);
+        for(MovieModel movie : newMovies)
+            if(movie.getPosterPath()!=null && !movie.getPosterPath().equals(""))
+                movies.add(movie);
 
-        Log.i(LOG_TAG,"Current movies list item count: "+movies.size());
+        //Log.i(LOG_TAG,"Current movies list item count: "+movies.size());
 
         notifyDataSetChanged();
     }
