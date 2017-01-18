@@ -1,13 +1,13 @@
 package com.deltabit.popularmovies;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.squareup.picasso.Picasso;
@@ -50,7 +50,7 @@ public class MovieAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        View itemView;
+        final View itemView;
         final MovieModel movieModel = movies.get(position);
 
         if (convertView == null) {
@@ -62,23 +62,25 @@ public class MovieAdapter extends BaseAdapter {
             itemView = convertView;
         }
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                caller.onMovieClicked(movieModel);
-            }
-        });
+        TextView title = (TextView) itemView.findViewById(R.id.textview_item_discovery);
+        title.setText(movieModel.getTitle());
 
 
         if(movieModel.getPosterPath()!=null && !movieModel.getPosterPath().equals("")) {
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageview_item_discovery);
 
-            String posterPath = context.getString(R.string.poster_api_path);
-            posterPath = posterPath + movieModel.getPosterPath();
-            Picasso.with(context).load(posterPath).into(imageView);
+
+            Picasso.with(context).load(Utilities.getMediumPosterUrlFor(movieModel,context)).into(imageView);
         }else{
             Log.e(LOG_TAG,"error, missing posterPath on "+movieModel.getTitle()+" movie model.");
         }
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                caller.onMovieClicked(movieModel,itemView);
+            }
+        });
 
         return itemView;
     }

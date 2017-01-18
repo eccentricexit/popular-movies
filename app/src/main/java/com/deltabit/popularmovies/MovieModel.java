@@ -1,10 +1,17 @@
 package com.deltabit.popularmovies;
 
-        import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
         import com.google.gson.annotations.Expose;
         import com.google.gson.annotations.SerializedName;
 
-public class MovieModel {
+public class MovieModel implements Serializable {
 
     @SerializedName("poster_path")
     @Expose
@@ -75,6 +82,22 @@ public class MovieModel {
 
     public String getReleaseDate() {
         return releaseDate;
+    }
+
+    public String getFormattedReleaseDate(){
+        String strCurrentDate = getReleaseDate();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date newDate = null;
+        try {
+            newDate = format.parse(strCurrentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        format = new SimpleDateFormat("dd/MM/yyyy");
+        String date = format.format(newDate);
+
+        return date;
     }
 
     public void setReleaseDate(String releaseDate) {
@@ -160,5 +183,6 @@ public class MovieModel {
     public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
+
 
 }

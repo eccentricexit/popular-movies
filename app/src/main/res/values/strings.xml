@@ -5,5 +5,10 @@
     <string name="select_filter">Sort By...</string>
 
     <string name="error_message">An error has occurred, please try again</string>
-    <string name="poster_api_path">http://image.tmdb.org/t/p/w185/</string>
+    <string name="poster_api_path">http://image.tmdb.org/t/p</string>
+    <string name="transition_poster">transition_poster</string>
+
+    <string name="poster_size_small">/w185/</string>
+    <string name="poster_size_medium">/w342/</string>
+    <string name="poster_size_large">/w500/</string>
 </resources>
