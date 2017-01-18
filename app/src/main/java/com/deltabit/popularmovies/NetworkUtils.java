@@ -1,17 +1,14 @@
 package com.deltabit.popularmovies;
 
-import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -21,36 +18,36 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
+
     private static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/";
-    private static final String DISCOVER_URL = "discover";
     private static final String MOVIE_URL = "movie";
+    public static final String TOP_RATED = "top_rated";
+    public static final String POPULARITY = "popular";
 
     private static final String PARAM_API_KEY = "api_key";
-    private static final String PARAM_SORT_BY = "sort_by";
-    private static final String PARAM_MAX_RELEASE_DATE = "release_date.lte";
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    public static Uri buildUri(Context context, String sortFilter) {
-
-        android.net.Uri uri = android.net.Uri.parse(TMDB_BASE_URL)
+    public static Uri buildUriDiscovery(Context context, String sortFilter) {
+        Uri.Builder builder = android.net.Uri.parse(TMDB_BASE_URL)
                 .buildUpon()
-                .appendPath(DISCOVER_URL)
-                .appendPath(MOVIE_URL)
-                .appendQueryParameter(PARAM_API_KEY, context.getString(R.string.api_key))
-                .appendQueryParameter(PARAM_SORT_BY, sortFilter)
-                .appendQueryParameter(PARAM_MAX_RELEASE_DATE,getCurrentDate())
-                .build();
+                .appendPath(MOVIE_URL);
+
+        if(sortFilter.equals(TOP_RATED)) {
+            builder.appendPath(TOP_RATED);
+        }
+        else {
+            builder.appendPath(POPULARITY);
+        }
+
+        builder.appendQueryParameter(PARAM_API_KEY,context.getString(R.string.api_key));
+        Uri uri = builder.build();
 
 //        Log.i(LOG_TAG,uri.toString());
 
         return uri;
     }
 
-    private static String getCurrentDate() {
-
-        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-    }
 
 
     public static String getResponseFromUrl(URL url) throws IOException {

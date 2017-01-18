@@ -1,15 +1,13 @@
 package com.deltabit.popularmovies;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-        import com.google.gson.annotations.Expose;
-        import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class MovieModel implements Serializable {
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_movie_detail"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"    
+    android:layout_height="match_parent"
     tools:context="com.deltabit.popularmovies.MovieDetailActivity"
     android:orientation="vertical"
     >
@@ -13,28 +13,69 @@
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="500dp" />
 
     <ScrollView
         android:id="@+id/scrollview_details"
         android:layout_width="match_parent"
-        android:paddingTop="300dp"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:paddingTop="500dp"
+        android:clipToPadding="false"
+        >
         <LinearLayout
             android:orientation="vertical"
             android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
             <TextView
                 android:id="@+id/textview_title_details"
                 android:textSize="@dimen/title"
                 android:padding="24dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <TextView
-                android:id="@+id/textview_plot_details"
+                android:layout_height="wrap_content"
+                />
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:padding="24dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/textview_releaseDate_details"
+                        android:textSize="@dimen/release_date"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                    <RatingBar
+                        android:stepSize="0.1"
+                        android:id="@+id/ratingBar_movie_details"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+
+                <View style="@style/Divider"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textview_plot_details"
+                    android:textSize="@dimen/plot"
+                    android:textColor="@color/secondary_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

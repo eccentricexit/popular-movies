@@ -2,10 +2,6 @@ package com.deltabit.popularmovies;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -16,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,7 +21,6 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,14 +34,11 @@ public class DiscoveryActivity extends AppCompatActivity implements OnTaskComple
 
 
     public static final String MOVIEMODEL_EXTRA = "MovieModel";
-
     @SuppressWarnings("unused")
     private static final String LOG_TAG = DiscoveryActivity.class.getSimpleName();
-
     private static final String FILTER_KEY = "saved_filter";
-    private static final String DATE = "release_date.desc";
-    private static final String POPULARITY = "popularity.desc";
-    private static final String DEFAULT_FILTER = POPULARITY;
+
+    private static final String DEFAULT_FILTER = NetworkUtils.POPULARITY;
 
     private static String sortFilter = DEFAULT_FILTER;
 
@@ -92,7 +83,7 @@ public class DiscoveryActivity extends AppCompatActivity implements OnTaskComple
 
     private void updateGridView() {
         try {
-            Uri uri = NetworkUtils.buildUri(this,sortFilter);
+            Uri uri = NetworkUtils.buildUriDiscovery(this,sortFilter);
             URL url = new URL(uri.toString());
 
             progressBar.setVisibility(View.VISIBLE);
@@ -117,21 +108,21 @@ public class DiscoveryActivity extends AppCompatActivity implements OnTaskComple
         int itemId = item.getItemId();
 
         switch (itemId){
-            case(R.id.action_sort_by_date): {
+            case(R.id.action_sort_by_top_rated): {
 //                Log.i(LOG_TAG,"changing sorting to date");
-                editor.putString(FILTER_KEY,DATE);
+                editor.putString(FILTER_KEY,NetworkUtils.TOP_RATED);
                 editor.commit();
 
-                sortFilter = DATE;
+                sortFilter = NetworkUtils.TOP_RATED;
                 updateGridView();
                 break;
             }
             case(R.id.action_sort_by_popularity):{
 //                Log.i(LOG_TAG,"changing sorting to popularity");
-                editor.putString(FILTER_KEY,POPULARITY);
+                editor.putString(FILTER_KEY,NetworkUtils.POPULARITY);
                 editor.commit();
 
-                sortFilter = POPULARITY;
+                sortFilter = NetworkUtils.POPULARITY;
                 updateGridView();
                 break;
             }

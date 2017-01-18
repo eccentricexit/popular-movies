@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.textview_title_details) TextView mTitle;
     @BindView(R.id.textview_plot_details) TextView mPlot;
     @BindView(R.id.textview_releaseDate_details) TextView mReleaseDate;
+    @BindView(R.id.ratingBar_movie_details) RatingBar mRatingBar;
 
     Bundle extras;
     MovieModel movieModel;
@@ -66,6 +68,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mTitle.setText(movieModel.getTitle());
         mPlot.setText(movieModel.getOverview());
         mReleaseDate.setText("Release date: "+movieModel.getFormattedReleaseDate());
+        mRatingBar.setRating(movieModel.getVoteAverage().floatValue()/2f);
     }
 
     @Override

@@ -8,8 +8,8 @@
         >
         <menu>
             <item
-                android:title="@string/sort_by_date"
-                android:id="@+id/action_sort_by_date"
+                android:title="@string/top_rated"
+                android:id="@+id/action_sort_by_top_rated"
                 app:showAsAction="ifRoom"
                 />
             <item
