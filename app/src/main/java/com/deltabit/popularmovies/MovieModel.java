@@ -1,6 +1,7 @@
 package com.deltabit.popularmovies;
 
 
+/*-----Generated with http://www.jsonschema2pojo.org/----*/
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
