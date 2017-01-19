@@ -11,4 +11,11 @@
     <string name="poster_size_small">/w185/</string>
     <string name="poster_size_medium">/w342/</string>
     <string name="poster_size_large">/w500/</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, ut eos dicta dolorum singulis,
+        ut usu pertinax ullamcorper. Vim nihil facete in, his labitur sententiae ei. Posse
+        quidam mea ne, cu dolore nonumy diceret sea. Sit no discere facilisi invenire, pro
+        munere feugiat fierent cu. Vis diam utamur ornatus ne, oratio sadipscing interpretaris
+        ne duo. Has wisi expetendis cotidieque no, unum errem menandri nam ea.
+    </string>
+    <string name="movie_rating">Rating:</string>
 </resources>

@@ -40,7 +40,7 @@ public class NetworkUtils {
             builder.appendPath(POPULARITY);
         }
 
-        builder.appendQueryParameter(PARAM_API_KEY,context.getString(R.string.api_key));
+        builder.appendQueryParameter(PARAM_API_KEY,BuildConfig.THE_MOVIE_DB_KEY);
         Uri uri = builder.build();
 
 //        Log.i(LOG_TAG,uri.toString());
