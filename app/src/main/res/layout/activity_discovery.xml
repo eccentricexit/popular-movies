@@ -9,18 +9,13 @@
     tools:context="com.deltabit.popularmovies.DiscoveryActivity">
 
 
-    <GridView
-        android:id="@+id/gridview_discovery_movies"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_discovery_movies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:verticalSpacing="0dp"
-        android:horizontalSpacing="0dp"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:gravity="top"
         >
 
-    </GridView>
+    </android.support.v7.widget.RecyclerView>
     
     <ProgressBar
         android:id="@+id/progressbar_discovery"

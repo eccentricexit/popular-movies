@@ -16,6 +16,7 @@
         android:scaleType="centerCrop" />
 
     <View
+        android:id="@+id/background_color_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/white_overlay"
@@ -41,7 +42,7 @@
             <ImageView
                 android:id="@+id/imageview_poster_details"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/poster_size"
+                android:layout_height="@dimen/poster_size_details"
                 android:background="@color/accent"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/transition_poster"

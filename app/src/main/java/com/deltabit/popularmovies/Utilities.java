@@ -1,6 +1,7 @@
 package com.deltabit.popularmovies;
 
 import android.content.Context;
+import android.graphics.Color;
 
 /**
  * Created by rigel on 17/01/17.
@@ -26,5 +27,12 @@ public class Utilities {
         posterPath = posterPath + movieModel.getPosterPath();
 
         return posterPath;
+    }
+
+    public static int lighten(int color, float factor) {
+        int red = (int) ((Color.red(color) * (1 - factor) / 255 + factor) * 255);
+        int green = (int) ((Color.green(color) * (1 - factor) / 255 + factor) * 255);
+        int blue = (int) ((Color.blue(color) * (1 - factor) / 255 + factor) * 255);
+        return Color.argb(150, red, green, blue);
     }
 }

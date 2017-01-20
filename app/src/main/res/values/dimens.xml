@@ -6,9 +6,11 @@
     <dimen name="title">30sp</dimen>
     <dimen name="release_date">20sp</dimen>
     <dimen name="plot">20sp</dimen>
-    <dimen name="poster_size">500dp</dimen>
+    <dimen name="poster_size_details">500dp</dimen>
     <dimen name="detail_cards_margin">8dp</dimen>
     <dimen name="detail_cards_padding">16dp</dimen>
     <dimen name="textview_rating">20sp</dimen>
     <dimen name="separator_elevation">8dp</dimen>
+
+    <dimen name="poster_height_discovery">300dp</dimen>
 </resources>

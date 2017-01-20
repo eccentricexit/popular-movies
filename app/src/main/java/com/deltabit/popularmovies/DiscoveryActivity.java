@@ -7,11 +7,14 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -47,7 +50,7 @@ public class DiscoveryActivity extends AppCompatActivity implements OnTaskComple
     MovieAdapter adapter;
 
 
-    @BindView(R.id.gridview_discovery_movies) GridView gridViewMovies;
+    @BindView(R.id.recyclerview_discovery_movies) RecyclerView recyclerViewMovies;
     @BindView(R.id.progressbar_discovery) ProgressBar progressBar;
 
     @Override
@@ -59,7 +62,9 @@ public class DiscoveryActivity extends AppCompatActivity implements OnTaskComple
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
         adapter = new MovieAdapter(this,new ArrayList<MovieModel>(),this);
-        gridViewMovies.setAdapter(adapter);
+
+        recyclerViewMovies.setAdapter(adapter);
+        recyclerViewMovies.setLayoutManager(new GridLayoutManager(this,2));
     }
 
     @Override

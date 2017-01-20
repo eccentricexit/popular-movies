@@ -2,6 +2,7 @@ package com.deltabit.popularmovies;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -37,6 +39,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.ratingBar_movie_details) RatingBar mRatingBar;
     @BindView(R.id.collapsingtblayout_details) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.separator_details) LinearLayout mSeparator;
+    @BindView(R.id.background_color_overlay) View backgroundOverlay;
 
     Bundle extras;
     MovieModel movieModel;
@@ -89,18 +92,26 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void applyPalette(Palette palette) {
-        mCollapsingToolbarLayout
-                .setContentScrimColor(
+        mCollapsingToolbarLayout.setContentScrimColor(
                         palette.getMutedColor(getResources().getColor(R.color.primary))
                 );
 
-        mCollapsingToolbarLayout
-                .setStatusBarScrimColor(
+        mCollapsingToolbarLayout.setStatusBarScrimColor(
                         palette.getDarkMutedColor(getResources().getColor(R.color.primary))
                 );
 
-        mRoot.setBackgroundColor(palette.getDarkMutedColor(getResources().getColor(R.color.primary)));
-        mSeparator.setBackgroundColor(palette.getLightMutedColor(getResources().getColor(R.color.cardview_light_background)));
+        mRoot.setBackgroundColor(
+                palette.getDarkMutedColor(getResources().getColor(R.color.primary))
+        );
+
+        mSeparator.setBackgroundColor(
+                palette.getLightMutedColor(getResources().getColor(R.color.cardview_light_background))
+        );
+
+
+        backgroundOverlay.setBackgroundColor(
+                Utilities.lighten(palette.getLightMutedColor(Color.WHITE),0.6f)
+        );
     }
 
 
