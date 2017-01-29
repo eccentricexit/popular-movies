@@ -1,6 +1,7 @@
 package com.deltabit.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,9 +36,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private static final String MOVIE_ID_EXTRA = "movie_id";
         ImageView imageView;
-
         TextView movieTitle;
+        public String movieId;
+
         public MovieAdapterViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageview_item_discovery);
@@ -47,7 +50,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(mContext,movieTitle.getText()+" clicked", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(mContext,MovieDetailActivity.class);
+            i.putExtra(MOVIE_ID_EXTRA,movieId);
+
+            mContext.startActivity(i);
         }
 
 
@@ -72,6 +78,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     public void onBindViewHolder(final MovieAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
+        holder.movieId = mCursor.getString(MovieDbHelper.COL_MOVIE_ID);
         holder.movieTitle.setText(mCursor.getString(MovieDbHelper.COL_TITLE));
         Picasso.with(mContext)
                 .load(MovieContract.getMediumPosterUrlFor(

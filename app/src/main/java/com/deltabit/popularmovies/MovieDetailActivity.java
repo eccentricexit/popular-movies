@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -41,29 +41,28 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.ratingBar_movie_details) RatingBar mRatingBar;
     @BindView(R.id.collapsingtblayout_details) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.separator_details) LinearLayout mSeparator;
-    @BindView(R.id.background_color_overlay) View backgroundOverlay;
+    @BindView(R.id.background_color_overlay) View mBackgroundOverlay;
+    @BindView(R.id.progressbar_detail) ProgressBar mProgressBar;
 
-    Bundle extras;
-    MovieModel movieModel;
-    Context context;
+    MovieModel mMovieModel;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
-
         ButterKnife.bind(this);
 
-        context = this;
-        extras = getIntent().getExtras();
-        movieModel = new MovieModel();
-//        movieModel = (MovieModel) extras.getSerializable(DiscoveryActivity.MOVIEMODEL_EXTRA);
+        mContext = this;
+        mMovieModel = new MovieModel();
 
-        ViewCompat.setTransitionName(findViewById(R.id.appbar), APPBAR_TRANSITION);
+        mProgressBar.setVisibility(View.VISIBLE);
 
+    }
+
+    private void buildUiFromMovieModel() {
         Picasso.with(this)
-                .load(MovieContract.getMediumPosterUrlFor(movieModel.getPosterPath(),this))
+                .load(MovieContract.getMediumPosterUrlFor(mMovieModel.getPosterPath(),this))
                 .into(mPoster,new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
@@ -82,14 +81,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                     }
                 });
 
-        mToolbar.setTitle(movieModel.getTitle());
-        mPlot.setText(movieModel.getOverview());
-        mReleaseDate.setText("Release date: "+movieModel.getFormattedReleaseDate());
-        mRatingBar.setRating(movieModel.getVoteAverage().floatValue()/2f);
+        mToolbar.setTitle(mMovieModel.getTitle());
+        mPlot.setText(mMovieModel.getOverview());
+        mReleaseDate.setText("Release date: "+ mMovieModel.getFormattedReleaseDate());
+        mRatingBar.setRating(mMovieModel.getVoteAverage().floatValue()/2f);
     }
 
     private void applyBlur(Palette palette, Bitmap bitmap) {
-        Blurry.with(context)
+        Blurry.with(mContext)
                 .from(bitmap)
                 .into(mBackground);
     }
@@ -112,7 +111,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         );
 
 
-        backgroundOverlay.setBackgroundColor(
+        mBackgroundOverlay.setBackgroundColor(
                 lighten(palette.getLightMutedColor(Color.WHITE),0.6f)
         );
     }

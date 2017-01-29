@@ -162,6 +162,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static void initializeSyncAdapter(Context context) {
         Log.d(LOG_TAG,"Initializing SyncAdapter...");
         getSyncAccount(context);
+        syncImmediately(context);
     }
 
 
@@ -190,8 +191,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Log.d(LOG_TAG,"onAccountCreated executing...");
         ContentResolver.setIsSyncable(newAccount,MovieContract.CONTENT_AUTHORITY,1);
         ContentResolver.setSyncAutomatically(newAccount,MovieContract.CONTENT_AUTHORITY,true);
-
-        syncImmediately(context);
     }
 
     private static void syncImmediately(Context context) {

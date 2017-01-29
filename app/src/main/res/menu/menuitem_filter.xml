@@ -2,20 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="@string/select_filter"
+        android:title="@string/label_select_filter"
         android:id="@+id/action_select_filter"
         app:showAsAction="ifRoom"
         >
         <menu>
             <item
-                android:title="@string/top_rated"
+                android:title="@string/label_top_rated"
                 android:id="@+id/action_sort_by_top_rated"
                 app:showAsAction="ifRoom"
                 />
             <item
                 android:id="@+id/action_sort_by_popularity"
                 app:showAsAction="ifRoom"
-                android:title="@string/sort_by_popularity" />
+                android:title="@string/label_popularity" />
         </menu>
     </item>
 

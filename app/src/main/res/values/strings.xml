@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Popular Movies</string>
-    <string name="top_rated">Top Rated</string>
-    <string name="sort_by_popularity">Popularity</string>
-    <string name="select_filter">Sort By...</string>
+    <string name="label_top_rated">Top Rated</string>
+    <string name="label_popularity">Popularity</string>
+    <string name="label_select_filter">Sort By...</string>
 
     <string name="error_message">An error has occurred, please try again</string>
     <string name="poster_api_path">http://image.tmdb.org/t/p</string>
@@ -24,7 +24,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="title_activity_main">MainActivity</string>
+
     <string name="filter_key">saved_filter</string>
-    <string name="DEFAULT_FILTER">popularity</string>
+    <string name="filter_popularity">popularity</string>
+    <string name="filter_topRated">top_rated</string>
+    <string name="filter_default">@string/filter_popularity</string>
 </resources>
