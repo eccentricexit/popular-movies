@@ -1,77 +1,85 @@
 package com.deltabit.popularmovies;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.deltabit.popularmovies.data.MovieContract;
+import com.deltabit.popularmovies.data.MovieDbHelper;
+import com.deltabit.popularmovies.data.MovieModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.deltabit.popularmovies.data.MovieDbHelper.*;
+
 /**
  * Created by rigel on 12/01/17.
  */
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
 
-    Context context;
-    List<MovieModel> movies;
-    OnMovieClicked caller;
+    Context mContext;
+    Cursor mCursor;
 
-    public MovieAdapter(Context context, List<MovieModel> movies, OnMovieClicked caller) {
-        super();
-        this.context = context;
-        this.movies = movies;
-        this.caller = caller;
+    public MovieAdapter(Context context) {
+        this.mContext = context;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageView;
+
         TextView movieTitle;
-
-        public ViewHolder(View itemView) {
+        public MovieAdapterViewHolder(View itemView) {
             super(itemView);
-
             imageView = (ImageView) itemView.findViewById(R.id.imageview_item_discovery);
             movieTitle = (TextView) itemView.findViewById(R.id.textview_item_discovery);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(mContext,movieTitle.getText()+" clicked", Toast.LENGTH_SHORT).show();
         }
 
 
     }
     @Override
-    public MovieAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+    public MovieAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if ( parent instanceof RecyclerView ) {
+            int layoutId = R.layout.item_discovery_movie;
 
-        View movieItemView = inflater.inflate(R.layout.item_discovery_movie,parent,false);
+            View movieItemView = LayoutInflater.from(
+                    parent.getContext()
+            ).inflate(layoutId, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(movieItemView);
-
-        return viewHolder;
+            movieItemView.setFocusable(true);
+            return new MovieAdapterViewHolder(movieItemView);
+        } else {
+            throw new RuntimeException("Not bound to RecyclerView");
+        }
     }
 
     @Override
-    public void onBindViewHolder(final MovieAdapter.ViewHolder holder, int position) {
-        final MovieModel movieModel = movies.get(position);
+    public void onBindViewHolder(final MovieAdapterViewHolder holder, int position) {
+        mCursor.moveToPosition(position);
 
-        holder.movieTitle.setText(movieModel.getTitle());
-        Picasso.with(context)
-                .load(Utilities.getMediumPosterUrlFor(movieModel,context))
+        holder.movieTitle.setText(mCursor.getString(MovieDbHelper.COL_TITLE));
+        Picasso.with(mContext)
+                .load(MovieContract.getMediumPosterUrlFor(
+                        mCursor.getString(MovieDbHelper.COL_POSTER),
+                        mContext)
+                )
                 .into(holder.imageView);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                caller.onMovieClicked(movieModel,holder.itemView);
-            }
-        });
     }
 
     @Override
@@ -81,60 +89,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        if(mCursor==null)
+            return 0;
+
+        return mCursor.getCount();
     }
 
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup viewGroup) {
-//        final View itemView;
-//        final MovieModel movieModel = movies.get(position);
-//
-//        if (convertView == null) {
-//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            itemView = inflater.inflate(R.layout.item_discovery_movie, null);
-//        }
-//        else
-//        {
-//            itemView = convertView;
-//        }
-//
-//        TextView title = (TextView) itemView.findViewById(R.id.textview_item_discovery);
-//        title.setText(movieModel.getTitle());
-//
-//
-//        if(movieModel.getPosterPath()!=null && !movieModel.getPosterPath().equals("")) {
-//            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageview_item_discovery);
-//
-//
-//            Picasso.with(context).load(Utilities.getMediumPosterUrlFor(movieModel,context)).into(imageView);
-//        }else{
-//            Log.e(LOG_TAG,"error, missing posterPath on "+movieModel.getTitle()+" movie model.");
-//        }
-//
-//        itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                caller.onMovieClicked(movieModel,itemView);
-//            }
-//        });
-//
-//        return itemView;
-//    }
-
-    public void update(List<MovieModel> newMovies) {
-//        Log.i(LOG_TAG,"Current movies list item count: "+movies.size());
-
-        if(movies==null){
-            movies = new ArrayList<>();
-        }
-
-        movies.clear();
-        for(MovieModel movie : newMovies)
-            if(movie.getPosterPath()!=null && !movie.getPosterPath().equals(""))
-                movies.add(movie);
-
-        //Log.i(LOG_TAG,"Current movies list item count: "+movies.size());
-
+    public void swapCursor(Cursor data) {
+        mCursor = data;
         notifyDataSetChanged();
     }
+
+
+
 }

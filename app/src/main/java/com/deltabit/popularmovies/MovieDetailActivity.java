@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.deltabit.popularmovies.data.MovieContract;
+import com.deltabit.popularmovies.data.MovieModel;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -55,12 +57,13 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         context = this;
         extras = getIntent().getExtras();
-        movieModel = (MovieModel) extras.getSerializable(DiscoveryActivity.MOVIEMODEL_EXTRA);
+        movieModel = new MovieModel();
+//        movieModel = (MovieModel) extras.getSerializable(DiscoveryActivity.MOVIEMODEL_EXTRA);
 
         ViewCompat.setTransitionName(findViewById(R.id.appbar), APPBAR_TRANSITION);
 
         Picasso.with(this)
-                .load(Utilities.getMediumPosterUrlFor(movieModel,this))
+                .load(MovieContract.getMediumPosterUrlFor(movieModel.getPosterPath(),this))
                 .into(mPoster,new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
@@ -110,8 +113,15 @@ public class MovieDetailActivity extends AppCompatActivity {
 
 
         backgroundOverlay.setBackgroundColor(
-                Utilities.lighten(palette.getLightMutedColor(Color.WHITE),0.6f)
+                lighten(palette.getLightMutedColor(Color.WHITE),0.6f)
         );
+    }
+
+    public static int lighten(int color, float factor) {
+        int red = (int) ((Color.red(color) * (1 - factor) / 255 + factor) * 255);
+        int green = (int) ((Color.green(color) * (1 - factor) / 255 + factor) * 255);
+        int blue = (int) ((Color.blue(color) * (1 - factor) / 255 + factor) * 255);
+        return Color.argb(150, red, green, blue);
     }
 
 

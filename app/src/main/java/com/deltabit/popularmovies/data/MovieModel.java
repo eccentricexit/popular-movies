@@ -1,4 +1,4 @@
-package com.deltabit.popularmovies;
+package com.deltabit.popularmovies.data;
 
 
 /*-----Generated with http://www.jsonschema2pojo.org/----*/
@@ -105,10 +105,6 @@ public class MovieModel implements Serializable {
 
     public List<Integer> getGenreIds() {
         return genreIds;
-    }
-
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
     }
 
     public Integer getId() {
