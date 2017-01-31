@@ -2,7 +2,7 @@
     <string name="app_name">Popular Movies</string>
     <string name="label_top_rated">Top Rated</string>
     <string name="label_popularity">Popularity</string>
-    <string name="label_select_filter">Sort By...</string>
+    <string name="label_select_filter">Sort By&#8230;</string>
 
     <string name="error_message">An error has occurred, please try again</string>
     <string name="poster_api_path">http://image.tmdb.org/t/p</string>
@@ -22,13 +22,12 @@
     <string name="sync_account_type">popularmovies.deltabit.com</string>
     <string name="content_authority">com.deltabit.popularmovies</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="title_activity_main">MainActivity</string>
 
     <string name="filter_key">saved_filter</string>
     <string name="filter_popularity">popularity</string>
     <string name="filter_topRated">top_rated</string>
     <string name="filter_default">@string/filter_popularity</string>
+    <string name="EXTRA_MOVIE_ID">com.deltabit.popularmovies.extra.MOVIE_ID</string>
+    <string name="cD_imageview_item_main_activity">Movie poster</string>
 </resources>

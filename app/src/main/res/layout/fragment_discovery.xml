@@ -6,11 +6,11 @@
     android:background="@color/primary_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.deltabit.popularmovies.MainActivity">
+    tools:context="com.deltabit.popularmovies.MoviesActivity">
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_discovery_movies"
+        android:id="@+id/recyclerview_main_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager=""

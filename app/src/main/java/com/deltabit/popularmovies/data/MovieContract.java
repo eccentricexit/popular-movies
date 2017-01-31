@@ -21,18 +21,18 @@ public class MovieContract {
     private static final String LOG_TAG = MovieContract.class.getSimpleName();
 
     public static final String CONTENT_AUTHORITY = "com.deltabit.popularmovies";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
 
-    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/";
-    public static final String MOVIE_URL = "movie";
+    private static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/";
+    private static final String MOVIE_URL = "movie";
     public static final String POPULAR_URL = "popular";
     public static final String TOP_RATED_URL = "top_rated";
 
 
-    public static final String PARAM_API_KEY = "api_key";
+    private static final String PARAM_API_KEY = "api_key";
 
-    public static Uri.Builder getMovieBuilder() {
+    private static Uri.Builder getMovieBuilder() {
         return Uri.parse(TMDB_BASE_URL).buildUpon().appendPath(MOVIE_URL);
     }
 

@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import com.deltabit.popularmovies.data.MovieContract.*;
+import com.deltabit.popularmovies.data.MovieContract.FavoriteEntry;
+import com.deltabit.popularmovies.data.MovieContract.PopularEntry;
+import com.deltabit.popularmovies.data.MovieContract.TopRatedEntry;
 
 /**
  * Created by rigel on 23/01/17.
@@ -19,7 +21,7 @@ public class MovieProvider extends ContentProvider {
     private static final int POPULAR = 2;
     private static final int FAVORITE = 3;
     private MovieDbHelper mMovieDbHelper;
-    public static final UriMatcher uriMatcher = buildUriMatcher();
+    private static final UriMatcher uriMatcher = buildUriMatcher();
 
 
     @Override

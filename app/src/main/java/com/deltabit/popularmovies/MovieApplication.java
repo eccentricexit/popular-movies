@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.deltabit.popularmovies.sync.SyncAdapter;
-
 /**
  * Created by rigel on 29/01/17.
  */
@@ -21,7 +19,7 @@ public class MovieApplication extends Application {
         if(!sharedPreferences.contains(filterKey)){
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(filterKey,this.getString(R.string.filter_default));
-            editor.commit();
+            editor.apply();
         }
 
     }

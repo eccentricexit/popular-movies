@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_discovery"
     android:background="@color/primary_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.deltabit.popularmovies.MainActivity">
+    tools:context="com.deltabit.popularmovies.MoviesActivity">
 
     <fragment
+        android:id="@+id/fragment_main_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.deltabit.popularmovies.MainFragment"
+        class="com.deltabit.popularmovies.MoviesFragment"
         />
 
 </FrameLayout>

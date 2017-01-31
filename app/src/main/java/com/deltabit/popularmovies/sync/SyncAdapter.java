@@ -12,13 +12,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.deltabit.popularmovies.data.MovieContract;
-import com.deltabit.popularmovies.data.MovieContract.*;
-import com.deltabit.popularmovies.data.MovieModel;
 import com.deltabit.popularmovies.R;
+import com.deltabit.popularmovies.data.MovieContract;
+import com.deltabit.popularmovies.data.MovieContract.MovieEntry;
+import com.deltabit.popularmovies.data.MovieContract.PopularEntry;
+import com.deltabit.popularmovies.data.MovieContract.TopRatedEntry;
+import com.deltabit.popularmovies.model.MovieModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,10 +43,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
 
 
-    ContentResolver mContentResolver;
+    private final ContentResolver mContentResolver;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
-        super(context, autoInitialize);
+        super(context, true);
         mContentResolver = context.getContentResolver();
     }
 
@@ -98,7 +99,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             values.put(MovieEntry.COLUMN_MOVIE_ID,movie.getId());
             values.put(MovieEntry.COLUMN_ORIGINAL_TITLE,movie.getOriginalTitle());
             values.put(MovieEntry.COLUMN_ORIGINAL_LANGUAGE,movie.getOriginalLanguage());
-            values.put(MovieEntry.COLUMN_TITLE,movie.getTitle());;
+            values.put(MovieEntry.COLUMN_TITLE,movie.getTitle());
             values.put(MovieEntry.COLUMN_BACKDROP_PATH,movie.getBackdropPath());
             values.put(MovieEntry.COLUMN_POPULARITY,movie.getPopularity());
             values.put(MovieEntry.COLUMN_VOTE_COUNT,movie.getVoteCount());
@@ -133,7 +134,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
 
             if(inputStream==null)
                 return null;
@@ -142,7 +143,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             String line; //for debugging purposes
             while((line = reader.readLine())!=null)
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
 
 
             if(buffer.length()==0)
@@ -160,14 +161,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     public static void initializeSyncAdapter(Context context) {
-        Log.d(LOG_TAG,"Initializing SyncAdapter...");
+//        Log.d(LOG_TAG,"Initializing SyncAdapter...");
         getSyncAccount(context);
         syncImmediately(context);
     }
 
 
     private static Account getSyncAccount(Context context) {
-        Log.d(LOG_TAG,"getSyncAccount executing...");
+//        Log.d(LOG_TAG,"getSyncAccount executing...");
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
 
@@ -175,7 +176,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
         if (accountManager.getPassword(newAccount) == null) {
-            Log.d(LOG_TAG,"Account doesn't exist.");
+//            Log.d(LOG_TAG,"Account doesn't exist.");
             if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
                 return null;
             }
@@ -188,18 +189,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private static void onAccountCreated(Account newAccount, Context context) {
-        Log.d(LOG_TAG,"onAccountCreated executing...");
+//        Log.d(LOG_TAG,"onAccountCreated executing...");
         ContentResolver.setIsSyncable(newAccount,MovieContract.CONTENT_AUTHORITY,1);
         ContentResolver.setSyncAutomatically(newAccount,MovieContract.CONTENT_AUTHORITY,true);
     }
 
     private static void syncImmediately(Context context) {
-        Log.d(LOG_TAG,"syncImmediately executing...");
+//        Log.d(LOG_TAG,"syncImmediately executing...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
 
-        Log.d(LOG_TAG,"Requesting sync...");
+//        Log.d(LOG_TAG,"Requesting sync...");
         ContentResolver.requestSync(getSyncAccount(context),
                 context.getString(R.string.content_authority), bundle);
     }

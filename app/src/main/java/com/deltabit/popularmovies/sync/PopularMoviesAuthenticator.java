@@ -11,7 +11,7 @@ import android.os.Bundle;
  * Created by rigel on 24/01/17.
  */
 
-public class PopularMoviesAuthenticator extends AbstractAccountAuthenticator {
+class PopularMoviesAuthenticator extends AbstractAccountAuthenticator {
     public PopularMoviesAuthenticator(Context context) {
         super(context);
     }

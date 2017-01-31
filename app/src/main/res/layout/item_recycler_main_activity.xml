@@ -3,16 +3,19 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_gravity="top"
-    android:layout_height="match_parent">
+    android:layout_height="@dimen/poster_height_main_activity"
+    >
     <ImageView
-        android:id="@+id/imageview_item_discovery"
+        android:transitionName="@string/transition_poster"
+        android:id="@+id/imageview_item_main_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
+        android:contentDescription="@string/cD_imageview_item_main_activity"
         />
     <TextView
-        android:id="@+id/textview_item_discovery"
+        android:id="@+id/textview_item_main_activity"
         android:textColor="@android:color/white"
         android:padding="10dp"
         android:background="@color/translucent_black"

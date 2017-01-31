@@ -1,16 +1,21 @@
-package com.deltabit.popularmovies.data;
+package com.deltabit.popularmovies.model;
 
 
 /*-----Generated with http://www.jsonschema2pojo.org/----*/
-import java.io.Serializable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import org.parceler.Parcel;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.util.Locale;
 
-public class MovieModel implements Serializable {
+@Parcel
+public class MovieModel {
 
     @SerializedName("poster_path")
     @Expose
@@ -26,7 +31,7 @@ public class MovieModel implements Serializable {
     private String releaseDate;
     @SerializedName("genre_ids")
     @Expose
-    private List<Integer> genreIds = null;
+    private final List<Integer> genreIds = null;
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -85,7 +90,7 @@ public class MovieModel implements Serializable {
 
     public String getFormattedReleaseDate(){
         String strCurrentDate = getReleaseDate();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date newDate = null;
         try {
             newDate = format.parse(strCurrentDate);
@@ -93,7 +98,7 @@ public class MovieModel implements Serializable {
             e.printStackTrace();
         }
 
-        format = new SimpleDateFormat("dd/MM/yyyy");
+        format = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
         String date = format.format(newDate);
 
         return date;

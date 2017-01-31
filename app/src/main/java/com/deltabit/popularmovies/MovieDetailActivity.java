@@ -1,127 +1,38 @@
 package com.deltabit.popularmovies;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.TextView;
+import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
-import com.deltabit.popularmovies.data.MovieContract;
-import com.deltabit.popularmovies.data.MovieModel;
-import com.squareup.picasso.Picasso;
+import com.deltabit.popularmovies.model.MovieModel;
 
-import butterknife.BindView;
+import org.parceler.Parcels;
+
 import butterknife.ButterKnife;
-import jp.wasabeef.blurry.Blurry;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
-    private static final String APPBAR_TRANSITION = "appbar_transition";
-
-    @BindView(R.id.activity_movie_detail) CoordinatorLayout mRoot;
-    @BindView(R.id.imageview_background_details) ImageView mBackground;
-    @BindView(R.id.toolbar_movie_details) Toolbar mToolbar;
-    @BindView(R.id.scrollview_details) NestedScrollView mScrollView;
-    @BindView(R.id.imageview_poster_details) ImageView mPoster;
-    @BindView(R.id.textview_plot_details) TextView mPlot;
-    @BindView(R.id.textview_releaseDate_details) TextView mReleaseDate;
-    @BindView(R.id.ratingBar_movie_details) RatingBar mRatingBar;
-    @BindView(R.id.collapsingtblayout_details) CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @BindView(R.id.separator_details) LinearLayout mSeparator;
-    @BindView(R.id.background_color_overlay) View mBackgroundOverlay;
-    @BindView(R.id.progressbar_detail) ProgressBar mProgressBar;
-
-    MovieModel mMovieModel;
-    Context mContext;
+    private Context mContext;
+    private MovieModel mMovieModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
-
         mContext = this;
-        mMovieModel = new MovieModel();
 
-        mProgressBar.setVisibility(View.VISIBLE);
-
-    }
-
-    private void buildUiFromMovieModel() {
-        Picasso.with(this)
-                .load(MovieContract.getMediumPosterUrlFor(mMovieModel.getPosterPath(),this))
-                .into(mPoster,new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-                        BitmapDrawable drawable = (BitmapDrawable) mPoster.getDrawable();
-                        Bitmap posterBitmap = drawable.getBitmap();
-                        if (posterBitmap != null && !posterBitmap.isRecycled()) {
-                            Palette palette = Palette.from(posterBitmap).generate();
-                            applyBlur(palette,posterBitmap);
-                            applyPalette(palette);
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
-
-        mToolbar.setTitle(mMovieModel.getTitle());
-        mPlot.setText(mMovieModel.getOverview());
-        mReleaseDate.setText("Release date: "+ mMovieModel.getFormattedReleaseDate());
-        mRatingBar.setRating(mMovieModel.getVoteAverage().floatValue()/2f);
-    }
-
-    private void applyBlur(Palette palette, Bitmap bitmap) {
-        Blurry.with(mContext)
-                .from(bitmap)
-                .into(mBackground);
-    }
-
-    private void applyPalette(Palette palette) {
-        mCollapsingToolbarLayout.setContentScrimColor(
-                        palette.getMutedColor(getResources().getColor(R.color.primary))
-                );
-
-        mCollapsingToolbarLayout.setStatusBarScrimColor(
-                        palette.getDarkMutedColor(getResources().getColor(R.color.primary))
-                );
-
-        mRoot.setBackgroundColor(
-                palette.getDarkMutedColor(getResources().getColor(R.color.primary))
+        mMovieModel = Parcels.unwrap(
+                (Parcelable) getIntent().getExtras().get(this.getString(R.string.EXTRA_MOVIE_ID))
         );
 
-        mSeparator.setBackgroundColor(
-                palette.getLightMutedColor(getResources().getColor(R.color.cardview_light_background))
-        );
+        Log.d(LOG_TAG,"Movie Id: "+mMovieModel.getId());
 
-
-        mBackgroundOverlay.setBackgroundColor(
-                lighten(palette.getLightMutedColor(Color.WHITE),0.6f)
-        );
+        //TODO Populate with data from movieModel
+        //TODO Fetch Trailers and Reviews with async task
     }
-
-    public static int lighten(int color, float factor) {
-        int red = (int) ((Color.red(color) * (1 - factor) / 255 + factor) * 255);
-        int green = (int) ((Color.green(color) * (1 - factor) / 255 + factor) * 255);
-        int blue = (int) ((Color.blue(color) * (1 - factor) / 255 + factor) * 255);
-        return Color.argb(150, red, green, blue);
-    }
-
 
 }
