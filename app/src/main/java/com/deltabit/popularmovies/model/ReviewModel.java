@@ -11,16 +11,16 @@ class ReviewModel {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    protected String id;
     @SerializedName("author")
     @Expose
-    private String author;
+    protected String author;
     @SerializedName("content")
     @Expose
-    private String content;
+    protected String content;
     @SerializedName("url")
     @Expose
-    private String url;
+    protected String url;
 
     public String getId() {
         return id;

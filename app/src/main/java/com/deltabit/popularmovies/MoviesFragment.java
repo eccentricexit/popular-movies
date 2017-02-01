@@ -35,10 +35,8 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String LOG_TAG = MoviesFragment.class.getSimpleName();
     private static final int MOVIES_LOADER = 1;
 
-    @BindView(R.id.recyclerview_main_activity)
-    private RecyclerView mRecyclerViewMovies;
-    @BindView(R.id.progressbar_discovery)
-    private ProgressBar mProgressBar;
+    @BindView(R.id.recyclerview_main_activity) RecyclerView mRecyclerViewMovies;
+    @BindView(R.id.progressbar_discovery) ProgressBar mProgressBar;
 
     private MovieAdapter mMovieAdapter;
     private SharedPreferences mSharedPreferences;
