@@ -1,19 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView android:id="@+id/scrollView_movie_detail"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cLayout_movie_detail"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        tools:ignore="MissingPrefix">
 
     <TextView
-        android:textSize="@dimen/title"
+        android:id="@+id/rating_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-        android:text="@string/lorem_ipsum"
+        android:text="@string/movie_rating_label"
+        android:textSize="@dimen/title_size"
+        app:layout_constraintLeft_toLeftOf="@+id/release_date_label"
+        app:layout_constraintTop_toBottomOf="@+id/release_date_label" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/materialRatingBar_movie_detail"
+            style="@style/Widget.MaterialRatingBar.RatingBar"
+            android:layout_width="180dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:numStars="5"
+            android:rating="3"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rating_label" />
+
+        <TextView
+            android:id="@+id/release_date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/release_date_label"
+            android:textSize="@dimen/paragraph_size"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.v4.widget.NestedScrollView>
+        <TextView
+            android:id="@+id/release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:textSize="@dimen/paragraph_size"
+            app:layout_constraintLeft_toRightOf="@+id/release_date_label"
+            app:layout_constraintTop_toTopOf="@+id/release_date_label"
+            tools:text="25/01/1975" />
+
+        <View
+            android:id="@+id/view_separator_plot"
+            android:layout_width="352dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/accent"
+            app:layout_constraintLeft_toLeftOf="@+id/rating_label"
+            app:layout_constraintTop_toBottomOf="@+id/rating_label" />
+
+
+        <TextView
+            android:id="@+id/textview_plot_label"
+            fontPath="Raleway-Bold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/plot_label"
+            android:textSize="@dimen/title_size"
+            app:layout_constraintLeft_toLeftOf="@+id/release_date_label"
+            app:layout_constraintTop_toBottomOf="@+id/view_separator_plot" />
+
+        <TextView
+            android:id="@+id/textview_plot_moviedetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/paragraph_size"
+            app:layout_constraintLeft_toLeftOf="@+id/textview_plot_label"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_plot_label"
+            tools:text="@string/lorem_ipsum" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -21,8 +21,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
 
     private final Context mContext;
-    private Cursor mCursor;
     private final MovieAdapterOnClickHandler mOnClickHandler;
+    private Cursor mCursor;
 
 
     public MovieAdapter(Context context,MovieAdapterOnClickHandler onClickHandler) {
@@ -30,31 +30,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         mOnClickHandler = onClickHandler;
     }
 
-    public interface MovieAdapterOnClickHandler{
-        void onClick(MovieModel movieModel, MovieAdapterViewHolder vh);
-    }
-
-    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-
-        final ImageView imageView;
-        final TextView movieTitle;
-        MovieModel movieModel;
-
-        public MovieAdapterViewHolder(View itemView) {
-            super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.imageview_item_main_activity);
-            movieTitle = (TextView) itemView.findViewById(R.id.textview_item_main_activity);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            mOnClickHandler.onClick(movieModel,this);
-        }
-
-
-    }
     @Override
     public MovieAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if ( parent instanceof RecyclerView ) {
@@ -122,6 +97,34 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         movieModel.setBackdropPath(mCursor.getString(MovieDbHelper.COL_BACKDROP_PATH));
 
         return movieModel;
+    }
+
+    public interface MovieAdapterOnClickHandler {
+        void onClick(MovieModel movieModel, MovieAdapterViewHolder vh);
+    }
+
+    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+
+        final ImageView imageView;
+        final TextView movieTitle;
+        MovieModel movieModel;
+        View itemView;
+
+        public MovieAdapterViewHolder(View itemView) {
+            super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageview_item_main_activity);
+            movieTitle = (TextView) itemView.findViewById(R.id.textview_item_main_activity);
+            itemView.setOnClickListener(this);
+            this.itemView = itemView;
+        }
+
+        @Override
+        public void onClick(View view) {
+            mOnClickHandler.onClick(movieModel, this);
+        }
+
+
     }
 
 

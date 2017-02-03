@@ -43,11 +43,53 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
 
 
-    private final ContentResolver mContentResolver;
-
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, true);
-        mContentResolver = context.getContentResolver();
+        ContentResolver mContentResolver = context.getContentResolver();
+    }
+
+    public static void initializeSyncAdapter(Context context) {
+//        Log.d(LOG_TAG,"Initializing SyncAdapter...");
+        getSyncAccount(context);
+        syncImmediately(context);
+    }
+
+    private static Account getSyncAccount(Context context) {
+//        Log.d(LOG_TAG,"getSyncAccount executing...");
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+
+        Account newAccount = new Account(
+                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
+
+        if (accountManager.getPassword(newAccount) == null) {
+//            Log.d(LOG_TAG,"Account doesn't exist.");
+            if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
+                return null;
+            }
+
+            onAccountCreated(newAccount, context);
+        }
+
+        return newAccount;
+
+    }
+
+    private static void onAccountCreated(Account newAccount, Context context) {
+//        Log.d(LOG_TAG,"onAccountCreated executing...");
+        ContentResolver.setIsSyncable(newAccount, MovieContract.CONTENT_AUTHORITY, 1);
+        ContentResolver.setSyncAutomatically(newAccount, MovieContract.CONTENT_AUTHORITY, true);
+    }
+
+    private static void syncImmediately(Context context) {
+//        Log.d(LOG_TAG,"syncImmediately executing...");
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+
+//        Log.d(LOG_TAG,"Requesting sync...");
+        ContentResolver.requestSync(getSyncAccount(context),
+                context.getString(R.string.content_authority), bundle);
     }
 
     @Override
@@ -158,51 +200,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         return null;
-    }
-
-    public static void initializeSyncAdapter(Context context) {
-//        Log.d(LOG_TAG,"Initializing SyncAdapter...");
-        getSyncAccount(context);
-        syncImmediately(context);
-    }
-
-
-    private static Account getSyncAccount(Context context) {
-//        Log.d(LOG_TAG,"getSyncAccount executing...");
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
-
-        Account newAccount = new Account(
-                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
-
-        if (accountManager.getPassword(newAccount) == null) {
-//            Log.d(LOG_TAG,"Account doesn't exist.");
-            if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
-                return null;
-            }
-
-            onAccountCreated(newAccount,context);
-        }
-
-        return newAccount;
-
-    }
-
-    private static void onAccountCreated(Account newAccount, Context context) {
-//        Log.d(LOG_TAG,"onAccountCreated executing...");
-        ContentResolver.setIsSyncable(newAccount,MovieContract.CONTENT_AUTHORITY,1);
-        ContentResolver.setSyncAutomatically(newAccount,MovieContract.CONTENT_AUTHORITY,true);
-    }
-
-    private static void syncImmediately(Context context) {
-//        Log.d(LOG_TAG,"syncImmediately executing...");
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-
-//        Log.d(LOG_TAG,"Requesting sync...");
-        ContentResolver.requestSync(getSyncAccount(context),
-                context.getString(R.string.content_authority), bundle);
     }
 
 

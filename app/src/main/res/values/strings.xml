@@ -7,17 +7,15 @@
     <string name="error_message">An error has occurred, please try again</string>
     <string name="poster_api_path">http://image.tmdb.org/t/p</string>
     <string name="transition_poster">transition_poster</string>
+    <string name="movie_rating_label">Rating:</string>
 
     <string name="poster_size_small">/w185/</string>
     <string name="poster_size_medium">/w342/</string>
     <string name="poster_size_large">/w500/</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, ut eos dicta dolorum singulis,
         ut usu pertinax ullamcorper. Vim nihil facete in, his labitur sententiae ei. Posse
-        quidam mea ne, cu dolore nonumy diceret sea. Sit no discere facilisi invenire, pro
-        munere feugiat fierent cu. Vis diam utamur ornatus ne, oratio sadipscing interpretaris
-        ne duo. Has wisi expetendis cotidieque no, unum errem menandri nam ea.
+        quidam mea ne, cu dolore nonumy.
     </string>
-    <string name="movie_rating">Rating:</string>
 
     <string name="sync_account_type">popularmovies.deltabit.com</string>
     <string name="content_authority">com.deltabit.popularmovies</string>
@@ -29,5 +27,9 @@
     <string name="filter_topRated">top_rated</string>
     <string name="filter_default">@string/filter_popularity</string>
     <string name="EXTRA_MOVIE_ID">com.deltabit.popularmovies.extra.MOVIE_ID</string>
-    <string name="cD_imageview_item_main_activity">Movie poster</string>
+    <string name="cdescription_item_recycler">Movie poster</string>
+    <string name="release_date_label">Release Date:</string>
+    <string name="plot_label">Plot</string>
+
+
 </resources>

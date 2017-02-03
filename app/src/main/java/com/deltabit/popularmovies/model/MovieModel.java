@@ -17,48 +17,48 @@ import java.util.Locale;
 @Parcel
 public class MovieModel {
 
-    @SerializedName("poster_path")
-    @Expose
-    private String posterPath;
-    @SerializedName("adult")
-    @Expose
-    private Boolean adult;
-    @SerializedName("overview")
-    @Expose
-    private String overview;
-    @SerializedName("release_date")
-    @Expose
-    private String releaseDate;
     @SerializedName("genre_ids")
     @Expose
-    private final List<Integer> genreIds = null;
+    public final List<Integer> genreIds = null;
+    @SerializedName("poster_path")
+    @Expose
+    public String posterPath;
+    @SerializedName("adult")
+    @Expose
+    public Boolean adult;
+    @SerializedName("overview")
+    @Expose
+    public String overview;
+    @SerializedName("release_date")
+    @Expose
+    public String releaseDate;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    public Integer id;
     @SerializedName("original_title")
     @Expose
-    private String originalTitle;
+    public String originalTitle;
     @SerializedName("original_language")
     @Expose
-    private String originalLanguage;
+    public String originalLanguage;
     @SerializedName("title")
     @Expose
-    private String title;
+    public String title;
     @SerializedName("backdrop_path")
     @Expose
-    private String backdropPath;
+    public String backdropPath;
     @SerializedName("popularity")
     @Expose
-    private Double popularity;
+    public Double popularity;
     @SerializedName("vote_count")
     @Expose
-    private Integer voteCount;
+    public Integer voteCount;
     @SerializedName("video")
     @Expose
-    private Boolean video;
+    public Boolean video;
     @SerializedName("vote_average")
     @Expose
-    private Double voteAverage;
+    public Double voteAverage;
 
     public String getPosterPath() {
         return posterPath;
@@ -88,6 +88,10 @@ public class MovieModel {
         return releaseDate;
     }
 
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
     public String getFormattedReleaseDate(){
         String strCurrentDate = getReleaseDate();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -99,13 +103,8 @@ public class MovieModel {
         }
 
         format = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
-        String date = format.format(newDate);
 
-        return date;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+        return format.format(newDate);
     }
 
     public List<Integer> getGenreIds() {

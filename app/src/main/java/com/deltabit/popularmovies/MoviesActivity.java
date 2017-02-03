@@ -1,5 +1,6 @@
 package com.deltabit.popularmovies;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -8,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.deltabit.popularmovies.sync.SyncAdapter;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MoviesActivity extends AppCompatActivity {
 
@@ -25,7 +28,6 @@ public class MoviesActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menuitem_filter,menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -56,5 +58,11 @@ public class MoviesActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

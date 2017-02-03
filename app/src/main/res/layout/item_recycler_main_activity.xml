@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_gravity="top"
     android:layout_height="@dimen/poster_height_main_activity"
+    android:layout_gravity="top"
+    android:orientation="vertical"
     >
     <ImageView
-        android:transitionName="@string/transition_poster"
         android:id="@+id/imageview_item_main_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/cdescription_item_recycler"
         android:scaleType="centerCrop"
-        android:contentDescription="@string/cD_imageview_item_main_activity"
+        android:transitionName="@string/transition_poster"
         />
     <TextView
         android:id="@+id/textview_item_main_activity"
-        android:textColor="@android:color/white"
-        android:padding="10dp"
-        android:background="@color/translucent_black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="@color/translucent_black"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
         />
 
 </FrameLayout>

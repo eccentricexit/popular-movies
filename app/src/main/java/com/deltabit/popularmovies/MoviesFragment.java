@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,13 +15,14 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.deltabit.popularmovies.data.MovieContract;
+import com.deltabit.popularmovies.databinding.FragmentMoviesBinding;
 import com.deltabit.popularmovies.model.MovieModel;
 
 import org.parceler.Parcels;
@@ -35,35 +37,26 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String LOG_TAG = MoviesFragment.class.getSimpleName();
     private static final int MOVIES_LOADER = 1;
 
-    @BindView(R.id.recyclerview_main_activity) RecyclerView mRecyclerViewMovies;
-    @BindView(R.id.progressbar_discovery) ProgressBar mProgressBar;
+    //Using butterknife here because recyclerviews aren't databinding properly.
+    @BindView(R.id.recyclerview_main_activity)
+    RecyclerView mRecyclerView;
 
+    private FragmentMoviesBinding mDataBinding;
     private MovieAdapter mMovieAdapter;
     private SharedPreferences mSharedPreferences;
     private String mSortOrder;
     private Context mContext;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mContext = getContext();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         mSortOrder = mSharedPreferences.getString(
                 getContext().getString(R.string.filter_key),
                 getContext().getString(R.string.filter_default)
         );
-        mProgressBar.setVisibility(View.VISIBLE);
-
-
-        getLoaderManager().initLoader(MOVIES_LOADER,null,this);
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContext = getContext();
-        View rootView = inflater.inflate(R.layout.fragment_discovery, container, false);
-        ButterKnife.bind(this, rootView);
-
-        mRecyclerViewMovies.setLayoutManager(new GridLayoutManager(mContext,2));
 
         mMovieAdapter = new MovieAdapter(mContext,
                 new MovieAdapter.MovieAdapterOnClickHandler() {
@@ -75,11 +68,34 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                                 Parcels.wrap(movieModel)
                         );
 
+                        //TODO Add shared element transition
+
                         mContext.startActivity(i);
                     }
                 }
         );
-        mRecyclerViewMovies.setAdapter(mMovieAdapter);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(MOVIES_LOADER, null, this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
+        ButterKnife.bind(this, rootView);
+        mDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        getLoaderManager().initLoader(MOVIES_LOADER, null, this);
+
+        mDataBinding.progressbarFragmentMovies.setVisibility(View.VISIBLE);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mMovieAdapter);
 
         return rootView;
     }
@@ -116,7 +132,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 //        Log.d(LOG_TAG,"cursor has size:" + data.getCount());
 
         mMovieAdapter.swapCursor(data);
-        mProgressBar.setVisibility(View.GONE);
+        mDataBinding.progressbarFragmentMovies.setVisibility(View.GONE);
     }
 
     @Override

@@ -12,28 +12,28 @@ class TrailerModel {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    public String id;
     @SerializedName("iso_639_1")
     @Expose
-    private String iso6391;
+    public String iso6391;
     @SerializedName("iso_3166_1")
     @Expose
-    private String iso31661;
+    public String iso31661;
     @SerializedName("key")
     @Expose
-    private String key;
+    public String key;
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("site")
     @Expose
-    private String site;
+    public String site;
     @SerializedName("size")
     @Expose
-    private Integer size;
+    public Integer size;
     @SerializedName("type")
     @Expose
-    private String type;
+    public String type;
 
     public String getId() {
         return id;
