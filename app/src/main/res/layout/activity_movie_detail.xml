@@ -9,7 +9,6 @@
         android:fitsSystemWindows="true">
 
         <!--TODO fix font wrong font family on appbar title-->
-        <!--TODO set title to upper case-->
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
@@ -20,9 +19,9 @@
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:collapsedTitleTextAppearance="@style/TextAppearance.Raleway.Toolbar"
                 app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleTextAppearance="@style/TextAppearance.Raleway.Toolbar"
+                fontPath="fonts/Raleway-Regular.ttf"
+                app:expandedTitleTextAppearance="@style/TextAppearance.MovieDetails.Title"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
@@ -39,35 +38,42 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/scrim_rectangle" />
 
+
                 <android.support.v7.widget.Toolbar
-                    android:id="@+id/app_bar"
+                    android:id="@+id/toolbar_movie_details"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     app:layout_collapseMode="pin"
-                    tools:title="Shawshank Redemptino" />
+                    app:titleTextColor="@android:color/white"
+                    style="@style/TextAppearance.MovieDetails.Title"
+                    android:titleTextAppearance="@style/TextAppearance.MovieDetails.Title"
+                    android:theme="@style/ToolbarTheme"
+                     />
 
             </android.support.design.widget.CollapsingToolbarLayout>
+
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView_movie_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/content_background_color"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <include
                 android:id="@+id/cLayout_movie_detail"
-                layout="@layout/content_movie_detail" />
+                layout="@layout/content_movie_detail"
+                />
 
         </android.support.v4.widget.NestedScrollView>
 
         <FrameLayout
-            android:id="@+id/fab_favorite_movie_details"
+            android:id="@+id/fab_containter_movie_details"
             android:layout_width="@dimen/fab_size"
             android:layout_height="@dimen/fab_size"
             android:layout_margin="@dimen/fab_margin"
             android:background="@drawable/oval_shape"
-            android:elevation="8dp"
             app:layout_anchor="@id/app_bar_layout"
             app:layout_anchorGravity="bottom|end">
 

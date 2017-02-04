@@ -12,10 +12,7 @@
     <string name="poster_size_small">/w185/</string>
     <string name="poster_size_medium">/w342/</string>
     <string name="poster_size_large">/w500/</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, ut eos dicta dolorum singulis,
-        ut usu pertinax ullamcorper. Vim nihil facete in, his labitur sententiae ei. Posse
-        quidam mea ne, cu dolore nonumy.
-    </string>
+    <string name="lorem_ipsum">Lorem </string>
 
     <string name="sync_account_type">popularmovies.deltabit.com</string>
     <string name="content_authority">com.deltabit.popularmovies</string>
@@ -30,6 +27,8 @@
     <string name="cdescription_item_recycler">Movie poster</string>
     <string name="release_date_label">Release Date:</string>
     <string name="plot_label">Plot</string>
+    <string name="trailers_label">Trailers</string>
+    <string name="reviews_label">Reviews</string>
 
 
 </resources>

@@ -19,7 +19,7 @@ public class MovieModel {
 
     @SerializedName("genre_ids")
     @Expose
-    public final List<Integer> genreIds = null;
+    public List<Integer> genreIds = null;
     @SerializedName("poster_path")
     @Expose
     public String posterPath;

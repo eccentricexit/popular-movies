@@ -2,6 +2,11 @@ package com.deltabit.popularmovies;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
@@ -22,6 +27,7 @@ import org.parceler.Parcels;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
 
 
 public class MovieDetailActivity extends AppCompatActivity implements
@@ -37,6 +43,7 @@ public class MovieDetailActivity extends AppCompatActivity implements
     private boolean mIsFabHidden;
     private int mMaxScrollSize;
     private boolean mDidAnimateEnter = false;
+    GradientDrawable mOval;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -49,10 +56,12 @@ public class MovieDetailActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_movie_detail);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
         ButterKnife.bind(this);
+        mOval = ((GradientDrawable)mBinding.fabContainterMovieDetails.getBackground());
 
 
         MovieModel mMovieModel = Parcels.unwrap(
-                (Parcelable) getIntent().getExtras().get(this.getString(R.string.EXTRA_MOVIE_ID))
+                (Parcelable) getIntent().getExtras()
+                        .get(this.getString(R.string.EXTRA_MOVIE_ID))
         );
         mBinding.appBarLayout.addOnOffsetChangedListener(this);
 
@@ -64,15 +73,17 @@ public class MovieDetailActivity extends AppCompatActivity implements
 
     private void setupFab() {
         //TODO Add logic to save favorite movies
+        mBinding.likeButtonMovieDetails.setIconSizeDp(40);
         mBinding.likeButtonMovieDetails.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-
+                mOval.setAlpha(0);
+                likeButton.setIconSizeDp(25);
             }
-
             @Override
             public void unLiked(LikeButton likeButton) {
-
+                mOval.setAlpha(255);
+                likeButton.setIconSizeDp(40);
             }
         });
     }
@@ -100,10 +111,13 @@ public class MovieDetailActivity extends AppCompatActivity implements
                 .load(MovieContract.getMediumPosterUrlFor(movieModel.getPosterPath(), this))
                 .into(mBinding.imageviewPosterMoviedetails);
 
-        mBinding.appBar.setTitle(movieModel.getTitle());
+        mBinding.toolbarMovieDetails.setTitle(movieModel.getTitle().toUpperCase());
         mBinding.cLayoutMovieDetail.textviewPlotMoviedetails.setText(movieModel.getOverview());
         mBinding.cLayoutMovieDetail.releaseDate.setText(movieModel.getFormattedReleaseDate());
         mBinding.cLayoutMovieDetail.materialRatingBarMovieDetail.setRating(movieModel.getVoteAverage().floatValue() / 2f);
+
+        mBinding.toolbarMovieDetails.setTitleTextColor(Color.WHITE);
+        mBinding.toolbarMovieDetails.setSubtitleTextColor(Color.WHITE);
 
     }
 
@@ -119,14 +133,14 @@ public class MovieDetailActivity extends AppCompatActivity implements
         if ( absoluteOffset >= mMaxScrollSize) {
             if (!mIsFabHidden) {
                 mIsFabHidden = true;
-                ViewCompat.animate(mBinding.fabFavoriteMovieDetails).scaleY(0).scaleX(0).start();
+                ViewCompat.animate(mBinding.fabContainterMovieDetails).scaleY(0).scaleX(0).start();
             }
         }
 
         if(absoluteOffset < mMaxScrollSize) {
             if (mIsFabHidden) {
                 mIsFabHidden = false;
-                ViewCompat.animate(mBinding.fabFavoriteMovieDetails).scaleY(1).scaleX(1).start();
+                ViewCompat.animate(mBinding.fabContainterMovieDetails).scaleY(1).scaleX(1).start();
             }
         }
 
