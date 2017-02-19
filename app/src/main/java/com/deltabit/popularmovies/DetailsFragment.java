@@ -1,4 +1,4 @@
-package com.deltabit.popularmovies.view;
+package com.deltabit.popularmovies;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.deltabit.popularmovies.R;
 import com.deltabit.popularmovies.databinding.FragmentMovieDetailsBinding;
 import com.deltabit.popularmovies.model.MovieModel;
 

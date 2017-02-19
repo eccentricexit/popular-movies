@@ -1,8 +1,6 @@
-package com.deltabit.popularmovies.view;
-
+package com.deltabit.popularmovies;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,17 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.deltabit.popularmovies.BuildConfig;
-import com.deltabit.popularmovies.R;
 import com.deltabit.popularmovies.data.MovieContract;
-import com.deltabit.popularmovies.databinding.FragmentMovieTrailersBinding;
+import com.deltabit.popularmovies.databinding.FragmentMovieReviewsBinding;
 import com.deltabit.popularmovies.model.MovieModel;
-import com.deltabit.popularmovies.model.TrailerModel;
+import com.deltabit.popularmovies.model.ReviewModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 import org.parceler.Parcels;
@@ -41,32 +36,32 @@ import java.util.Scanner;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TrailersFragment extends Fragment {
+public class ReviewsFragment extends Fragment {
 
-    private static final String LOG_TAG = TrailersFragment.class.getSimpleName();
-    FragmentMovieTrailersBinding mBinding;
+    private static final String LOG_TAG = ReviewsFragment.class.getSimpleName();
+    FragmentMovieReviewsBinding mBinding;
     MovieModel mMovieModel;
-    TrailersAdapter mTrailersAdapter;
+    ReviewsAdapter mReviewAdapter;
 
-    public TrailersFragment() {
+
+    public ReviewsFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_reviews, container, false);
 
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_trailers, container, false);
         View view = mBinding.getRoot();
         mMovieModel = Parcels.unwrap(
                 this.getArguments().getParcelable(MovieDetailActivity.MOVIE_MODEL_BUNDLE));
 
-        mTrailersAdapter = new TrailersAdapter();
-        mBinding.recyclerviewTrailersFragment.setLayoutManager(new LinearLayoutManager(getContext()));
-        mBinding.recyclerviewTrailersFragment.setAdapter(mTrailersAdapter);
+        mReviewAdapter = new ReviewsAdapter();
+        mBinding.recyclerviewReviewsFragment.setLayoutManager(new LinearLayoutManager(getContext()));
+        mBinding.recyclerviewReviewsFragment.setAdapter(mReviewAdapter);
 
         //TODO change to execute only once
-        new AsyncGetTrailers().execute();
+        new AsyncGetReviews().execute();
 
         return view;
     }
@@ -76,26 +71,24 @@ public class TrailersFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-
-    //TODO Create generic asynctask
-    class AsyncGetTrailers extends AsyncTask<String, Void, List<TrailerModel>> {
+    class AsyncGetReviews extends AsyncTask<String, Void, List<ReviewModel>> {
 
         @Override
-        protected List<TrailerModel> doInBackground(String... strings) {
+        protected List<ReviewModel> doInBackground(String... strings) {
 
             Uri uri = new Uri.Builder()
                     .encodedPath(MovieContract.TMDB_BASE_URL)
                     .appendPath(MovieContract.MOVIE_URL)
                     .appendPath(mMovieModel.getId().toString())
-                    .appendPath(MovieContract.TRAILERS_URL)
+                    .appendPath(MovieContract.REVIEWS_URL)
                     .appendQueryParameter(MovieContract.PARAM_API_KEY, BuildConfig.THE_MOVIE_DB_KEY)
                     .build();
-
+            Log.d(LOG_TAG,uri.toString());
 
             HttpURLConnection urlConnection = null;
             try {
                 URL url = new URL(uri.toString());
-
+                
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = urlConnection.getInputStream();
 
@@ -106,7 +99,7 @@ public class TrailersFragment extends Fragment {
                 boolean hasInput = scanner.hasNext();
                 if (hasInput) {
                     response = scanner.next();
-                    Type listType = new TypeToken<List<TrailerModel>>() {
+                    Type listType = new TypeToken<List<ReviewModel>>() {
                     }.getType();
                     JSONObject jsonObject;
 
@@ -126,23 +119,23 @@ public class TrailersFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<TrailerModel> trailerModels) {
-            super.onPostExecute(trailerModels);
-            if (trailerModels != null) {
-                mTrailersAdapter.updateData(trailerModels);
-                mTrailersAdapter.notifyDataSetChanged();
+        protected void onPostExecute(List<ReviewModel> reviewModels) {
+            super.onPostExecute(reviewModels);
+            if (reviewModels != null) {
+                mReviewAdapter.updateData(reviewModels);
+                mReviewAdapter.notifyDataSetChanged();
             }
         }
     }
 
 
-    public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHolder> {
+    public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
-        List<TrailerModel> mTrailerModels = new ArrayList<>();
+        List<ReviewModel> mReviewModels = new ArrayList<>();
 
-        public void updateData(List<TrailerModel> newTrailerModels) {
-            mTrailerModels.clear();
-            mTrailerModels.addAll(newTrailerModels);
+        public void updateData(List<ReviewModel> newReviewModels) {
+            mReviewModels.clear();
+            mReviewModels.addAll(newReviewModels);
         }
 
         @Override
@@ -150,30 +143,18 @@ public class TrailersFragment extends Fragment {
             Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
 
-            View trailerItemView = inflater.inflate(R.layout.item_recycler_trailers, parent, false);
-            TrailersAdapter.ViewHolder viewHolder = new TrailersAdapter.ViewHolder(trailerItemView);
+            View reviewItemView = inflater.inflate(R.layout.item_recycler_reviews, parent, false);
+            ViewHolder viewHolder = new ViewHolder(reviewItemView);
 
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(TrailersAdapter.ViewHolder holder, int position) {
-            final TrailerModel trailerModel = mTrailerModels.get(position);
-            if (holder != null && holder.trailerThumbnail != null) {
-                Picasso.with(getContext())
-                        .load("http://img.youtube.com/vi/" + trailerModel.getKey() + "/0.jpg")
-                        .into(holder.trailerThumbnail);
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            ReviewModel reviewModel = mReviewModels.get(position);
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("http://www.youtube.com/watch?v=" + trailerModel.getKey()))
-                        );
-                    }
-                });
-            }
+            holder.author.setText(reviewModel.getAuthor());
+            holder.review.setText(reviewModel.getContent());
         }
 
         @Override
@@ -183,17 +164,20 @@ public class TrailersFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mTrailerModels.size();
+            return mReviewModels.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            ImageView trailerThumbnail;
+            TextView author;
+            TextView review;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                trailerThumbnail = (ImageView) itemView.findViewById(R.id.imageview_trailer_thumbnail);
+                author = (TextView) itemView.findViewById(R.id.author_reviews);
+                review = (TextView) itemView.findViewById(R.id.review_reviews);
             }
+
 
         }
 

@@ -1,4 +1,4 @@
-package com.deltabit.popularmovies;
+package com.deltabit.popularmovies.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.deltabit.popularmovies.R;
 import com.deltabit.popularmovies.data.MovieContract;
 import com.deltabit.popularmovies.data.MovieDbHelper;
 import com.deltabit.popularmovies.model.MovieModel;

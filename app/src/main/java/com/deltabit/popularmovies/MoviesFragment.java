@@ -1,4 +1,4 @@
-package com.deltabit.popularmovies.view;
+package com.deltabit.popularmovies;
 
 
 import android.content.Context;
@@ -21,8 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.deltabit.popularmovies.MovieAdapter;
-import com.deltabit.popularmovies.R;
+import com.deltabit.popularmovies.adapters.MovieAdapter;
 import com.deltabit.popularmovies.data.MovieContract;
 import com.deltabit.popularmovies.databinding.FragmentMoviesBinding;
 import com.deltabit.popularmovies.model.MovieModel;
