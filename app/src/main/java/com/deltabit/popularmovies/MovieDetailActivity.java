@@ -1,5 +1,6 @@
 package com.deltabit.popularmovies;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -25,6 +26,8 @@ import org.parceler.Parcels;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static java.security.AccessController.getContext;
+
 
 public class MovieDetailActivity extends AppCompatActivity implements
         AppBarLayout.OnOffsetChangedListener {
@@ -39,6 +42,7 @@ public class MovieDetailActivity extends AppCompatActivity implements
     private boolean mIsFabHidden;
     private int mMaxScrollSize;
     private boolean mDidAnimateEnter = false;
+    private MovieModel mMovieModel;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -54,7 +58,7 @@ public class MovieDetailActivity extends AppCompatActivity implements
         mOval = ((GradientDrawable)mBinding.fabContainterMovieDetails.getBackground());
 
 
-        MovieModel mMovieModel = Parcels.unwrap(
+        mMovieModel = Parcels.unwrap(
                 (Parcelable) getIntent().getExtras()
                         .get(this.getString(R.string.EXTRA_MOVIE_ID))
         );
@@ -90,20 +94,58 @@ public class MovieDetailActivity extends AppCompatActivity implements
     }
 
     private void setupFab() {
-        //TODO Add logic to save favorite movies
+        //TODO Fix weird size behaviour
         mBinding.likeButtonMovieDetails.setIconSizeDp(40);
         mBinding.likeButtonMovieDetails.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
                 mOval.setAlpha(0);
                 likeButton.setIconSizeDp(25);
+                saveAsFavorite();
             }
             @Override
             public void unLiked(LikeButton likeButton) {
                 mOval.setAlpha(255);
                 likeButton.setIconSizeDp(40);
+                removeFromFavorite();
             }
         });
+
+        if(isFavorite()) {
+            mOval.setAlpha(0);
+            mBinding.likeButtonMovieDetails.setIconSizeDp(40);
+            mBinding.likeButtonMovieDetails.setLiked(true);
+        }
+        else {
+            mOval.setAlpha(255);
+            mBinding.likeButtonMovieDetails.setIconSizeDp(25);
+            mBinding.likeButtonMovieDetails.setLiked(false);
+        }
+    }
+
+    private boolean isFavorite() {
+        return getContentResolver().query(
+                MovieContract.FavoriteEntry.CONTENT_URI,
+                null,
+                MovieContract.FavoriteEntry.COLUMN_MOVIE_ID+" = ?",
+                new String[]{mMovieModel.getId().toString()},
+                null
+        ).getCount() > 0;
+    }
+
+    private void saveAsFavorite() {
+        ContentValues cv = new ContentValues();
+        cv.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_ID,mMovieModel.getId());
+
+        getContentResolver().insert(MovieContract.FavoriteEntry.CONTENT_URI,cv);
+    }
+
+    private void removeFromFavorite() {
+        getContentResolver().delete(
+                MovieContract.FavoriteEntry.CONTENT_URI,
+                MovieContract.FavoriteEntry.COLUMN_MOVIE_ID + " = ?",
+                new String[]{mMovieModel.getId().toString()}
+        );
     }
 
     protected void performAnimation() {
