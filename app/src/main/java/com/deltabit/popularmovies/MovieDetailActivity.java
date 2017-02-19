@@ -3,15 +3,12 @@ package com.deltabit.popularmovies;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -24,26 +21,23 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
 
 
 public class MovieDetailActivity extends AppCompatActivity implements
         AppBarLayout.OnOffsetChangedListener {
 
+    public static final String MOVIE_MODEL_BUNDLE = "movie_model";
+
     private static final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
     private static final float SCREEN_PERCENTAGE = 0.85f;
-
-    @BindView(R.id.scrollView_movie_detail)
-    NestedScrollView mScrollView;
-
+    GradientDrawable mOval;
     private ActivityMovieDetailBinding mBinding;
+    private CustomFragmentPagerAdapter mAdapter;
     private boolean mIsFabHidden;
     private int mMaxScrollSize;
     private boolean mDidAnimateEnter = false;
-    GradientDrawable mOval;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -66,9 +60,32 @@ public class MovieDetailActivity extends AppCompatActivity implements
         mBinding.appBarLayout.addOnOffsetChangedListener(this);
 
         setupFab();
-        displayMovieInfo(mMovieModel);
-        fetchReviews();
-        fetchTrailers();
+        setupBasicInfo(mMovieModel);
+        setupViewPager(mMovieModel);
+        mBinding.tabLayoutMovieDetails
+                .setupWithViewPager(mBinding.viewPagerMovieDetails);
+    }
+
+    private void setupViewPager(MovieModel mMovieModel) {
+        mAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(MOVIE_MODEL_BUNDLE, Parcels.wrap(mMovieModel));
+
+        Fragment reviewsFragment = new MovieReviewsFragment();
+        Fragment trailerFragment = new MovieTrailersFragment();
+        Fragment detailsFragment = new MovieDetailsFragment();
+
+
+        reviewsFragment.setArguments(bundle);
+        trailerFragment.setArguments(bundle);
+        detailsFragment.setArguments(bundle);
+
+        mAdapter.addFragment(detailsFragment, getString(R.string.tab_title_details));
+        mAdapter.addFragment(reviewsFragment, getString(R.string.tab_title_reviews));
+        mAdapter.addFragment(trailerFragment, getString(R.string.tab_title_trailers));
+
+        mBinding.viewPagerMovieDetails.setAdapter(mAdapter);
     }
 
     private void setupFab() {
@@ -88,15 +105,6 @@ public class MovieDetailActivity extends AppCompatActivity implements
         });
     }
 
-    private void fetchTrailers() {
-        //TODO Fetch Trailers with async task
-    }
-
-    private void fetchReviews() {
-        //TODO Fetch Reviews with async task
-
-    }
-
     protected void performAnimation() {
         if (mDidAnimateEnter) {
             return;
@@ -105,20 +113,15 @@ public class MovieDetailActivity extends AppCompatActivity implements
         //TODO Animate scrollup to reveal content
     }
 
-    private void displayMovieInfo(MovieModel movieModel) {
+    private void setupBasicInfo(MovieModel movieModel) {
         //TODO Apply pallete to appbar/scrim after picasso loads
         Picasso.with(this)
                 .load(MovieContract.getMediumPosterUrlFor(movieModel.getPosterPath(), this))
                 .into(mBinding.imageviewPosterMoviedetails);
 
         mBinding.toolbarMovieDetails.setTitle(movieModel.getTitle().toUpperCase());
-        mBinding.cLayoutMovieDetail.textviewPlotMoviedetails.setText(movieModel.getOverview());
-        mBinding.cLayoutMovieDetail.releaseDate.setText(movieModel.getFormattedReleaseDate());
-        mBinding.cLayoutMovieDetail.materialRatingBarMovieDetail.setRating(movieModel.getVoteAverage().floatValue() / 2f);
-
         mBinding.toolbarMovieDetails.setTitleTextColor(Color.WHITE);
         mBinding.toolbarMovieDetails.setSubtitleTextColor(Color.WHITE);
-
     }
 
     @Override
@@ -152,4 +155,6 @@ public class MovieDetailActivity extends AppCompatActivity implements
         Log.d(LOG_TAG, "onEnterAnimationComplete()");
         performAnimation();
     }
+
+
 }

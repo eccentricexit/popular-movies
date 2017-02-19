@@ -17,10 +17,10 @@
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar_layout"
+                fontPath="fonts/Raleway-Regular.ttf"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
-                fontPath="fonts/Raleway-Regular.ttf"
                 app:expandedTitleTextAppearance="@style/TextAppearance.MovieDetails.Title"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -33,6 +33,7 @@
                     app:layout_collapseMode="parallax"
                     tools:src="@drawable/dummy_poster" />
 
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -43,11 +44,9 @@
                     android:id="@+id/toolbar_movie_details"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
+                    android:theme="@style/ToolbarTheme"
                     app:layout_collapseMode="pin"
                     app:titleTextColor="@android:color/white"
-                    style="@style/TextAppearance.MovieDetails.Title"
-                    android:titleTextAppearance="@style/TextAppearance.MovieDetails.Title"
-                    android:theme="@style/ToolbarTheme"
                      />
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -61,12 +60,30 @@
             android:background="@color/content_background_color"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include
-                android:id="@+id/cLayout_movie_detail"
-                layout="@layout/content_movie_detail"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabLayout_movie_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="72dp"
+                    android:layout_marginRight="72dp"
+                    app:layout_collapseMode="pin" />
+
+                <com.deltabit.popularmovies.CustomViewPager
+                    android:id="@+id/viewPager_movie_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            </LinearLayout>
+
 
         </android.support.v4.widget.NestedScrollView>
+
 
         <FrameLayout
             android:id="@+id/fab_containter_movie_details"

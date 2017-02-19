@@ -30,5 +30,11 @@
     <string name="trailers_label">Trailers</string>
     <string name="reviews_label">Reviews</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_title_details">Details</string>
+    <string name="tab_title_reviews">Reviews</string>
+    <string name="tab_title_trailers">Trailers</string>
+
 
 </resources>
