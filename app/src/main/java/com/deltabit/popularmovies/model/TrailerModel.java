@@ -8,7 +8,7 @@ import org.parceler.Parcel;
 
 /*-----Generated with http://www.jsonschema2pojo.org/----*/
 @Parcel
-class TrailerModel {
+public class TrailerModel {
 
     @SerializedName("id")
     @Expose

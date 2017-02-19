@@ -7,7 +7,7 @@ import org.parceler.Parcel;
 
 /*-----Generated with http://www.jsonschema2pojo.org/----*/
 @Parcel
-class ReviewModel {
+public class ReviewModel {
 
     @SerializedName("id")
     @Expose

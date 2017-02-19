@@ -72,9 +72,9 @@ public class MovieDetailActivity extends AppCompatActivity implements
         Bundle bundle = new Bundle();
         bundle.putParcelable(MOVIE_MODEL_BUNDLE, Parcels.wrap(mMovieModel));
 
-        Fragment reviewsFragment = new MovieReviewsFragment();
-        Fragment trailerFragment = new MovieTrailersFragment();
-        Fragment detailsFragment = new MovieDetailsFragment();
+        Fragment reviewsFragment = new ReviewsFragment();
+        Fragment trailerFragment = new TrailersFragment();
+        Fragment detailsFragment = new DetailsFragment();
 
 
         reviewsFragment.setArguments(bundle);

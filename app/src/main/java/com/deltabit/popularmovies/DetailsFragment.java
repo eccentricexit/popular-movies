@@ -13,12 +13,13 @@ import com.deltabit.popularmovies.model.MovieModel;
 import org.parceler.Parcels;
 
 
-public class MovieDetailsFragment extends Fragment {
+public class DetailsFragment extends Fragment {
 
+    private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
     FragmentMovieDetailsBinding mBinding;
     MovieModel mMovieModel;
 
-    public MovieDetailsFragment() {
+    public DetailsFragment() {
     }
 
     @Override
@@ -31,7 +32,7 @@ public class MovieDetailsFragment extends Fragment {
                 this.getArguments().getParcelable(MovieDetailActivity.MOVIE_MODEL_BUNDLE));
 
         mBinding.releaseDate.setText(mMovieModel.getReleaseDate());
-        mBinding.materialRatingBarMovieDetail.setRating(mMovieModel.getVoteAverage().floatValue());
+        mBinding.materialRatingBarMovieDetail.setRating(mMovieModel.getVoteAverage().floatValue() / 2f);
         mBinding.textviewPlotMoviedetails.setText(mMovieModel.getOverview());
 
         return view;

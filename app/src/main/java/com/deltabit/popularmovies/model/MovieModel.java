@@ -60,6 +60,7 @@ public class MovieModel {
     @Expose
     public Double voteAverage;
 
+
     public String getPosterPath() {
         return posterPath;
     }

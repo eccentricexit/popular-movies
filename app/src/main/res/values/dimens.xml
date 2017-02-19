@@ -20,7 +20,7 @@
     <dimen name="like_button_icon_size_normal">25dp</dimen>
     <dimen name="like_button_icon_size_big">35dp</dimen>
     <dimen name="title_size">32sp</dimen>
-    <dimen name="sub_title_size">26sp</dimen>
+    <dimen name="subtitle_size">26sp</dimen>
     <dimen name="paragraph_size">18sp</dimen>
     <dimen name="scroll_animation_start">80dp</dimen>
 
