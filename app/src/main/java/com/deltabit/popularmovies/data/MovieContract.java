@@ -24,13 +24,14 @@ public class MovieContract {
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
 
-    private static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/";
-    private static final String MOVIE_URL = "movie";
+    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/";
+    public static final String MOVIE_URL = "movie";
     public static final String POPULAR_URL = "popular";
     public static final String TOP_RATED_URL = "top_rated";
+    public static final String REVIEWS_URL = "reviews";
+    public static final String TRAILERS_URL = "videos";
 
-
-    private static final String PARAM_API_KEY = "api_key";
+    public static final String PARAM_API_KEY = "api_key";
 
     private static Uri.Builder getMovieBuilder() {
         return Uri.parse(TMDB_BASE_URL).buildUpon().appendPath(MOVIE_URL);
