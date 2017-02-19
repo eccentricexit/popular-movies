@@ -107,11 +107,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         String popularMoviesJson = getJsonResponseFor(popularMoviesUrl);
         String topRatedJson = getJsonResponseFor(topRatedUrl);
 
+
         syncMovies(popularMoviesJson,PopularEntry.CONTENT_URI);
         syncMovies(topRatedJson,TopRatedEntry.CONTENT_URI);
+
     }
 
     private void syncMovies(String json,Uri uri) {
+        if(json==null){
+            Log.e(LOG_TAG,"Error: Could not sync, topRatedJson == null");
+            return;
+        }
         List<MovieModel> movies = getMoviesFromJSON(json);
         Vector<ContentValues> cVVector = getContentVVectorFor(movies);
 

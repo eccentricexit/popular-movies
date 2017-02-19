@@ -1,4 +1,4 @@
-package com.deltabit.popularmovies;
+package com.deltabit.popularmovies.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.deltabit.popularmovies.R;
 import com.deltabit.popularmovies.sync.SyncAdapter;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;

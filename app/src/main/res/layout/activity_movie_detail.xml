@@ -74,7 +74,7 @@
                     android:layout_marginRight="72dp"
                     app:layout_collapseMode="pin" />
 
-                <com.deltabit.popularmovies.CustomViewPager
+                <com.deltabit.popularmovies.view.CustomViewPager
                     android:id="@+id/viewPager_movie_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

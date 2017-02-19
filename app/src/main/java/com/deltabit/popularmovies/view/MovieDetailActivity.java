@@ -1,4 +1,4 @@
-package com.deltabit.popularmovies;
+package com.deltabit.popularmovies.view;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -12,6 +12,8 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.deltabit.popularmovies.CustomFragmentPagerAdapter;
+import com.deltabit.popularmovies.R;
 import com.deltabit.popularmovies.data.MovieContract;
 import com.deltabit.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.deltabit.popularmovies.model.MovieModel;
