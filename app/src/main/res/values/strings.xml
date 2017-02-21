@@ -22,6 +22,7 @@
     <string name="filter_key">saved_filter</string>
     <string name="filter_popularity">popularity</string>
     <string name="filter_topRated">top_rated</string>
+    <string name="filter_favorites">favorites</string>
     <string name="filter_default">@string/filter_popularity</string>
     <string name="EXTRA_MOVIE_ID">com.deltabit.popularmovies.extra.MOVIE_ID</string>
     <string name="cdescription_item_recycler">Movie poster</string>
@@ -35,6 +36,9 @@
     <string name="tab_title_details">Details</string>
     <string name="tab_title_reviews">Reviews</string>
     <string name="tab_title_trailers">Trailers</string>
+    <string name="tab_title_topRated">Top Rated</string>
+    <string name="tab_title_popular">Popular</string>
+    <string name="tab_title_favorites">Favorites</string>
 
 
 </resources>

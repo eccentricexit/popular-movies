@@ -26,15 +26,13 @@ import org.parceler.Parcels;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static java.security.AccessController.getContext;
 
-
-public class MovieDetailActivity extends AppCompatActivity implements
+public class DetailActivity extends AppCompatActivity implements
         AppBarLayout.OnOffsetChangedListener {
 
     public static final String MOVIE_MODEL_BUNDLE = "movie_model";
 
-    private static final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
     private static final float SCREEN_PERCENTAGE = 0.85f;
     GradientDrawable mOval;
     private ActivityMovieDetailBinding mBinding;

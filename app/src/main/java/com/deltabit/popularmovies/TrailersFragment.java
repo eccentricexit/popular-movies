@@ -56,7 +56,7 @@ public class TrailersFragment extends Fragment {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_trailers, container, false);
         View view = mBinding.getRoot();
         mMovieModel = Parcels.unwrap(
-                this.getArguments().getParcelable(MovieDetailActivity.MOVIE_MODEL_BUNDLE));
+                this.getArguments().getParcelable(DetailActivity.MOVIE_MODEL_BUNDLE));
 
         mTrailersAdapter = new TrailersAdapter();
         mBinding.recyclerviewTrailersFragment.setLayoutManager(new LinearLayoutManager(getContext()));

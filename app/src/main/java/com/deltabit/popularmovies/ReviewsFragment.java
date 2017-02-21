@@ -54,7 +54,7 @@ public class ReviewsFragment extends Fragment {
 
         View view = mBinding.getRoot();
         mMovieModel = Parcels.unwrap(
-                this.getArguments().getParcelable(MovieDetailActivity.MOVIE_MODEL_BUNDLE));
+                this.getArguments().getParcelable(DetailActivity.MOVIE_MODEL_BUNDLE));
 
         mReviewAdapter = new ReviewsAdapter();
         mBinding.recyclerviewReviewsFragment.setLayoutManager(new LinearLayoutManager(getContext()));

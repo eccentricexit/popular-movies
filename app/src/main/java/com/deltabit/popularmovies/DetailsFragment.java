@@ -29,7 +29,7 @@ public class DetailsFragment extends Fragment {
         View view = mBinding.getRoot();
 
         mMovieModel = Parcels.unwrap(
-                this.getArguments().getParcelable(MovieDetailActivity.MOVIE_MODEL_BUNDLE));
+                this.getArguments().getParcelable(DetailActivity.MOVIE_MODEL_BUNDLE));
 
         mBinding.releaseDate.setText(mMovieModel.getReleaseDate());
         mBinding.materialRatingBarMovieDetail.setRating(mMovieModel.getVoteAverage().floatValue() / 2f);

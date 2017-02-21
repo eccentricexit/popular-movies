@@ -3,12 +3,10 @@ package com.deltabit.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -32,8 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
-        SharedPreferences.OnSharedPreferenceChangeListener{
+public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+
 
     private static final String LOG_TAG = MoviesFragment.class.getSimpleName();
     private static final int MOVIES_LOADER = 1;
@@ -42,9 +40,8 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     @BindView(R.id.recyclerview_main_activity)
     RecyclerView mRecyclerView;
 
-    private FragmentMoviesBinding mDataBinding;
+    private FragmentMoviesBinding mBinding;
     private MovieAdapter mMovieAdapter;
-    private SharedPreferences mSharedPreferences;
     private String mSortOrder;
     private Context mContext;
 
@@ -53,17 +50,13 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         super.onCreate(savedInstanceState);
 
         mContext = getContext();
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        mSortOrder = mSharedPreferences.getString(
-                getContext().getString(R.string.filter_key),
-                getContext().getString(R.string.filter_default)
-        );
+        mSortOrder = getArguments().getString(mContext.getString(R.string.filter_key));
 
         mMovieAdapter = new MovieAdapter(mContext,
                 new MovieAdapter.MovieAdapterOnClickHandler() {
                     @Override
                     public void onClick(MovieModel movieModel, MovieAdapter.MovieAdapterViewHolder vh) {
-                        Intent i = new Intent(mContext,MovieDetailActivity.class);
+                        Intent i = new Intent(mContext,DetailActivity.class);
                         i.putExtra(
                                 mContext.getString(R.string.EXTRA_MOVIE_ID),
                                 Parcels.wrap(movieModel)
@@ -87,10 +80,10 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         ButterKnife.bind(this, rootView);
-        mDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
         getLoaderManager().initLoader(MOVIES_LOADER, null, this);
 
-        mDataBinding.progressbarFragmentMovies.setVisibility(View.VISIBLE);
+        mBinding.progressbarFragmentMovies.setVisibility(View.VISIBLE);
 
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -108,11 +101,14 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         Uri selectedUri;
         String filterPopularity = mContext.getString(R.string.filter_popularity);
         String filterTopRated = mContext.getString(R.string.filter_topRated);
+        String filterFavorites = mContext.getString(R.string.filter_favorites);
 
         if(mSortOrder.equals(filterPopularity)){
             selectedUri = MovieContract.PopularEntry.CONTENT_URI;
         }else if(mSortOrder.equals(filterTopRated)){
             selectedUri = MovieContract.TopRatedEntry.CONTENT_URI;
+        }else if(mSortOrder.equals(filterFavorites)){
+            selectedUri = MovieContract.FavoriteEntry.CONTENT_URI;
         }else{
             throw new UnsupportedOperationException("Unknown mSortOrder: "+ mSortOrder);
         }
@@ -133,7 +129,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 //        Log.d(LOG_TAG,"cursor has size:" + data.getCount());
 
         mMovieAdapter.swapCursor(data);
-        mDataBinding.progressbarFragmentMovies.setVisibility(View.GONE);
+        mBinding.progressbarFragmentMovies.setVisibility(View.GONE);
     }
 
     @Override
@@ -141,28 +137,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mMovieAdapter.swapCursor(null);
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-//        Log.d(LOG_TAG,"onSharedPreferenceChanged executing...");
-        mSortOrder = sharedPreferences.getString(
-                mContext.getString(R.string.filter_key),
-                mContext.getString(R.string.filter_default)
-        );
 
-        getLoaderManager().restartLoader(MOVIES_LOADER,null,this);
-    }
 
-    @Override
-    public void onResume() {
-//        Log.d(LOG_TAG,"onResume executing...");
-        mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-//        Log.d(LOG_TAG,"onPause executing...");
-        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
-        super.onPause();
-    }
 }

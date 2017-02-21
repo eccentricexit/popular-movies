@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <FrameLayout
-        android:id="@+id/activity_discovery"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/primary_light"
-        tools:context="com.deltabit.popularmovies.MoviesActivity">
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout_movies"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent" />
 
-        <fragment
-            android:id="@+id/fragment_main_activity"
-            class="com.deltabit.popularmovies.MoviesFragment"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content">
+            <com.deltabit.popularmovies.CustomViewPager
+                android:id="@+id/viewpager_movies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"            />
+        </ScrollView>
+    </LinearLayout>
 
-    </FrameLayout>
 </layout>
