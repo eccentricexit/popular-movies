@@ -22,6 +22,7 @@
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleTextAppearance="@style/TextAppearance.MovieDetails.Title"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.MovieDetails.Title"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
@@ -56,7 +57,7 @@
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView_movie_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/content_background_color"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -64,20 +65,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tabLayout_movie_details"
+                <LinearLayout
+                    android:id="@+id/linearlayout_content_movie_details"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="bottom"
-                    android:layout_marginEnd="72dp"
-                    android:layout_marginRight="72dp"
-                    app:layout_collapseMode="pin" />
+                    android:orientation="horizontal">
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tabLayout_movie_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:layout_marginEnd="72dp"
+                        android:layout_marginRight="72dp"
+                        app:tabTextColor="@android:color/white"
+                        app:tabSelectedTextColor="@android:color/white"
+                        app:layout_collapseMode="pin" />
+                </LinearLayout>
+
+
 
                 <com.deltabit.popularmovies.CustomViewPager
                     android:id="@+id/viewPager_movie_details"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
 

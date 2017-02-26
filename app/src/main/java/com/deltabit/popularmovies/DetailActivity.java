@@ -6,13 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 
 import com.deltabit.popularmovies.adapters.CustomFragmentPagerAdapter;
@@ -94,7 +97,6 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void setupFab() {
-        //TODO Fix bad fragment height behaviour
         mBinding.likeButtonMovieDetails.setIconSizeDp(40);
         mBinding.likeButtonMovieDetails.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -161,10 +163,15 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void setupBasicInfo(MovieModel movieModel) {
-        //TODO Apply pallete to appbar/scrim after picasso loads
         Picasso.with(this)
                 .load(MovieContract.getMediumPosterUrlFor(movieModel.getPosterPath(), this))
                 .into(mBinding.imageviewPosterMoviedetails);
+
+
+        Palette p = Palette.from((
+                (BitmapDrawable)mBinding.imageviewPosterMoviedetails.getDrawable()).getBitmap())
+                .generate();
+        applyPalette(p);
 
         mBinding.toolbarMovieDetails.setTitle(movieModel.getTitle().toUpperCase());
         mBinding.toolbarMovieDetails.setTitleTextColor(Color.WHITE);
@@ -201,6 +208,30 @@ public class DetailActivity extends AppCompatActivity implements
         super.onEnterAnimationComplete();
         Log.d(LOG_TAG, "onEnterAnimationComplete()");
         performAnimation();
+    }
+
+    private void applyPalette(Palette palette) {
+        mBinding.collapsingToolbarLayout.setContentScrimColor(
+                palette.getVibrantColor(getResources().getColor(R.color.primary))
+        );
+
+        mBinding.collapsingToolbarLayout.setStatusBarScrimColor(
+                palette.getVibrantColor(getResources().getColor(R.color.primary))
+        );
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().setStatusBarColor(
+                    palette.getDarkVibrantColor(getResources().getColor(R.color.primary_dark))
+            );
+
+        mBinding.tabLayoutMovieDetails.setBackgroundColor(
+                palette.getVibrantColor(getResources().getColor(R.color.primary))
+        );
+
+        mBinding.linearlayoutContentMovieDetails.setBackgroundColor(
+                palette.getVibrantColor(getResources().getColor(R.color.primary))
+        );
+
     }
 
 
