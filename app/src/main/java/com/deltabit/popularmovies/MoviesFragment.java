@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -64,8 +66,13 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                         );
 
                         //TODO Add shared element transition
-
-                        mContext.startActivity(i);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            ActivityOptionsCompat options = ActivityOptionsCompat
+                                    .makeSceneTransitionAnimation(getActivity(), vh.imageView, getString(R.string.transition_poster));
+                            mContext.startActivity(i,options.toBundle());
+                        }else {
+                            mContext.startActivity(i);
+                        }
                     }
                 }
         );
