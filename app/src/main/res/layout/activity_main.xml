@@ -16,7 +16,7 @@
             <com.deltabit.popularmovies.CustomViewPager
                 android:id="@+id/viewpager_movies"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"            />
+                android:layout_height="wrap_content"            />
         </ScrollView>
     </LinearLayout>
 

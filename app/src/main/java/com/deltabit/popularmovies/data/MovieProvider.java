@@ -6,10 +6,14 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import com.deltabit.popularmovies.data.MovieContract.FavoriteEntry;
 import com.deltabit.popularmovies.data.MovieContract.PopularEntry;
 import com.deltabit.popularmovies.data.MovieContract.TopRatedEntry;
+import com.deltabit.popularmovies.data.MovieContract.*;
+
+import org.abego.treelayout.internal.util.Contract;
 
 /**
  * Created by rigel on 23/01/17.
@@ -17,9 +21,13 @@ import com.deltabit.popularmovies.data.MovieContract.TopRatedEntry;
 
 public class MovieProvider extends ContentProvider {
 
+    private static final String LOG_TAG = MovieProvider.class.getSimpleName();
+
     private static final int TOP_RATED = 1;
     private static final int POPULAR = 2;
     private static final int FAVORITE = 3;
+    private static final int FAVORITE_WITH_ID = 4;
+
     private MovieDbHelper mMovieDbHelper;
     private static final UriMatcher uriMatcher = buildUriMatcher();
 
@@ -45,6 +53,9 @@ public class MovieProvider extends ContentProvider {
             case FAVORITE: {
                 return FavoriteEntry.CONTENT_TYPE;
             }
+            case FAVORITE_WITH_ID:{
+                return FavoriteEntry.CONTENT_ITEM_TYPE;
+            }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
@@ -58,6 +69,10 @@ public class MovieProvider extends ContentProvider {
 
         SQLiteDatabase db = mMovieDbHelper.getReadableDatabase();
         Cursor resultCursor;
+        if(selection!=null)
+            selection = " 1=1 AND "+ selection;
+        else
+            selection = " 1=1 ";
 
         int match = uriMatcher.match(uri);
 
@@ -87,6 +102,86 @@ public class MovieProvider extends ContentProvider {
                 break;
             }
             case (FAVORITE): {
+                String topRatedProjection =
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_POSTER_PATH+
+                            " AS "+MovieEntry.COLUMN_POSTER_PATH +", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_ADULT+
+                            " AS "+MovieEntry.COLUMN_ADULT+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_OVERVIEW+
+                            " AS "+MovieEntry.COLUMN_OVERVIEW+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_RELEASE_DATE+
+                            " AS "+MovieEntry.COLUMN_RELEASE_DATE+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_MOVIE_ID+
+                            " AS "+MovieEntry.COLUMN_MOVIE_ID+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_ORIGINAL_TITLE+
+                            " AS "+MovieEntry.COLUMN_ORIGINAL_TITLE+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_ORIGINAL_LANGUAGE+
+                            " AS "+MovieEntry.COLUMN_ORIGINAL_LANGUAGE+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_TITLE+
+                            " AS "+MovieEntry.COLUMN_TITLE+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_BACKDROP_PATH+
+                            " AS "+MovieEntry.COLUMN_BACKDROP_PATH+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_POPULARITY+
+                            " AS "+MovieEntry.COLUMN_POPULARITY+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_VOTE_COUNT+
+                            " AS "+MovieEntry.COLUMN_VOTE_COUNT+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_VIDEO+
+                            " AS "+MovieEntry.COLUMN_VIDEO+", "+
+                        TopRatedEntry.TABLE_NAME+"."+MovieEntry.COLUMN_VOTE_AVERAGE+
+                            " AS "+MovieEntry.COLUMN_VOTE_AVERAGE;
+
+
+                String selectTopRatedFavorites = "SELECT "+topRatedProjection+" FROM "+
+                        FavoriteEntry.TABLE_NAME+" INNER JOIN " +
+                        TopRatedEntry.TABLE_NAME+" ON "+
+                            FavoriteEntry.TABLE_NAME+"."+ MovieEntry.COLUMN_MOVIE_ID+" = "+
+                            TopRatedEntry.TABLE_NAME+"."+ MovieEntry.COLUMN_MOVIE_ID;
+
+
+
+                String popularProjection = PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_POSTER_PATH+
+                        " AS "+MovieEntry.COLUMN_POSTER_PATH +", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_ADULT+
+                        " AS "+MovieEntry.COLUMN_ADULT+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_OVERVIEW+
+                        " AS "+MovieEntry.COLUMN_OVERVIEW+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_RELEASE_DATE+
+                        " AS "+MovieEntry.COLUMN_RELEASE_DATE+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_MOVIE_ID+
+                        " AS "+MovieEntry.COLUMN_MOVIE_ID+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_ORIGINAL_TITLE+
+                        " AS "+MovieEntry.COLUMN_ORIGINAL_TITLE+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_ORIGINAL_LANGUAGE+
+                        " AS "+MovieEntry.COLUMN_ORIGINAL_LANGUAGE+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_TITLE+
+                        " AS "+MovieEntry.COLUMN_TITLE+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_BACKDROP_PATH+
+                        " AS "+MovieEntry.COLUMN_BACKDROP_PATH+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_POPULARITY+
+                        " AS "+MovieEntry.COLUMN_POPULARITY+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_VOTE_COUNT+
+                        " AS "+MovieEntry.COLUMN_VOTE_COUNT+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_VIDEO+
+                        " AS "+MovieEntry.COLUMN_VIDEO+", "+
+                        PopularEntry.TABLE_NAME+"."+MovieEntry.COLUMN_VOTE_AVERAGE+
+                        " AS "+MovieEntry.COLUMN_VOTE_AVERAGE;
+
+                String selectPopularFavorites = "SELECT "+popularProjection+" FROM "+
+                        FavoriteEntry.TABLE_NAME+" INNER JOIN " +
+                        PopularEntry.TABLE_NAME+" ON "+
+                        FavoriteEntry.TABLE_NAME+"."+ MovieEntry.COLUMN_MOVIE_ID+" = "+
+                        PopularEntry.TABLE_NAME+"."+ MovieEntry.COLUMN_MOVIE_ID;
+
+                Log.d(LOG_TAG,"topRatedSelect: "+selectTopRatedFavorites);
+                Log.d(LOG_TAG,"popularSelect: "+selectPopularFavorites);
+
+                String rawQuery = selectTopRatedFavorites + " UNION " +
+                        selectPopularFavorites;
+
+                resultCursor = db.rawQuery(rawQuery,selectionArgs);
+                break;
+            }
+            case(FAVORITE_WITH_ID):{
                 resultCursor = db.query(
                         FavoriteEntry.TABLE_NAME,
                         projection,
@@ -102,6 +197,9 @@ public class MovieProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
         }
+        Log.d(LOG_TAG,"query() "+uri.toString()+" gave:"+ resultCursor.getCount());
+        Log.d(LOG_TAG,"resultCursor has "+resultCursor.getColumnCount()+" columns");
+
         resultCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return resultCursor;
     }
@@ -149,7 +247,7 @@ public class MovieProvider extends ContentProvider {
                         values
                 );
                 if (_id > 0)
-                    returnUri = FavoriteEntry.buildUri(_id);
+                    returnUri = FavoriteEntry.buildFavoriteWithIdUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
 
@@ -280,6 +378,7 @@ public class MovieProvider extends ContentProvider {
         matcher.addURI(authority, MovieContract.TopRatedEntry.CONTENT_PATH, TOP_RATED);
         matcher.addURI(authority, MovieContract.PopularEntry.CONTENT_PATH, POPULAR);
         matcher.addURI(authority, MovieContract.FavoriteEntry.CONTENT_PATH, FAVORITE);
+        matcher.addURI(authority, MovieContract.FavoriteEntry.CONTENT_PATH+"/*",FAVORITE_WITH_ID);
 
         return matcher;
     }

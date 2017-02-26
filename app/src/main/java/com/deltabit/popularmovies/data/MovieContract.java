@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import com.deltabit.popularmovies.BuildConfig;
 import com.deltabit.popularmovies.R;
@@ -62,12 +63,19 @@ public class MovieContract {
 
         public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + CONTENT_PATH;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + CONTENT_PATH;
+
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(CONTENT_PATH).build();
 
 
-        public static Uri buildUri(long id) {
+
+        public static Uri buildFavoriteWithIdUri(long id) {
+            Log.d(LOG_TAG,"buildFavoriteWithIdUri(): "+CONTENT_URI.toString());
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
+
     }
 
     public static class TopRatedEntry extends MovieEntry{

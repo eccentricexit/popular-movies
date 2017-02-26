@@ -2,6 +2,8 @@ package com.deltabit.popularmovies;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -92,7 +94,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void setupFab() {
-        //TODO Fix weird size behaviour
+        //TODO Fix bad fragment height behaviour
         mBinding.likeButtonMovieDetails.setIconSizeDp(40);
         mBinding.likeButtonMovieDetails.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -122,13 +124,17 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private boolean isFavorite() {
-        return getContentResolver().query(
-                MovieContract.FavoriteEntry.CONTENT_URI,
+        Cursor res = getContentResolver().query(
+                MovieContract.FavoriteEntry.buildFavoriteWithIdUri(mMovieModel.getId()),
                 null,
                 MovieContract.FavoriteEntry.COLUMN_MOVIE_ID+" = ?",
                 new String[]{mMovieModel.getId().toString()},
                 null
-        ).getCount() > 0;
+        );
+
+        Log.d(LOG_TAG,"isFavorite() count: "+res.getCount());
+
+        return res.getCount() > 0;
     }
 
     private void saveAsFavorite() {

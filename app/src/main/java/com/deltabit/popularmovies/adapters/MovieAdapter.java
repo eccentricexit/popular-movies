@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.deltabit.popularmovies.R;
 import com.deltabit.popularmovies.data.MovieContract;
+import com.deltabit.popularmovies.data.MovieContract.*;
 import com.deltabit.popularmovies.data.MovieDbHelper;
 import com.deltabit.popularmovies.model.MovieModel;
 import com.squareup.picasso.Picasso;
@@ -52,10 +53,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         mCursor.moveToPosition(position);
 
         holder.movieModel = movieModelFrom(mCursor);
-        holder.movieTitle.setText(mCursor.getString(MovieDbHelper.COL_TITLE));
+        holder.movieTitle.setText(holder.movieModel.getTitle());
         Picasso.with(mContext)
                 .load(MovieContract.getMediumPosterUrlFor(
-                        mCursor.getString(MovieDbHelper.COL_POSTER),
+                        holder.movieModel.getPosterPath(),
                         mContext)
                 )
                 .into(holder.imageView);
@@ -83,19 +84,33 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     private MovieModel movieModelFrom(Cursor mCursor) {
         MovieModel movieModel = new MovieModel();
 
-        movieModel.setOriginalLanguage(mCursor.getString(MovieDbHelper.COL_ORIGINAL_LANGUAGE));
-        movieModel.setVoteAverage(mCursor.getDouble(MovieDbHelper.COL_VOTE_AVERAGE));
-        movieModel.setAdult(mCursor.getInt(MovieDbHelper.COL_ADULT) == 1);
-        movieModel.setId(mCursor.getInt(MovieDbHelper.COL_MOVIE_ID));
-        movieModel.setTitle(mCursor.getString(MovieDbHelper.COL_TITLE));
-        movieModel.setReleaseDate(mCursor.getString(MovieDbHelper.COL_RELEASE_DATE));
-        movieModel.setPosterPath(mCursor.getString(MovieDbHelper.COL_POSTER));
-        movieModel.setPopularity(mCursor.getDouble(MovieDbHelper.COL_POPULARITY));
-        movieModel.setVideo(mCursor.getInt(MovieDbHelper.COL_VIDEO) == 1);
-        movieModel.setVoteCount(mCursor.getInt(MovieDbHelper.COL_VOTE_COUNT));
-        movieModel.setOriginalTitle(mCursor.getString(MovieDbHelper.COL_ORIGINAL_TITLE));
-        movieModel.setOverview(mCursor.getString(MovieDbHelper.COL_OVERVIEW));
-        movieModel.setBackdropPath(mCursor.getString(MovieDbHelper.COL_BACKDROP_PATH));
+        movieModel.setOriginalLanguage(mCursor.getString(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_ORIGINAL_LANGUAGE)));
+        movieModel.setVoteAverage(mCursor.getDouble(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_VOTE_AVERAGE)));
+        movieModel.setAdult(mCursor.getInt(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_ADULT)) == 1);
+        movieModel.setId(mCursor.getInt(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_MOVIE_ID)));
+        movieModel.setTitle(mCursor.getString(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_TITLE)));
+        movieModel.setReleaseDate(mCursor.getString(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_RELEASE_DATE)));
+        movieModel.setPosterPath(mCursor.getString(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_POSTER_PATH)));
+        movieModel.setPopularity(mCursor.getDouble(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_POPULARITY)));
+        movieModel.setVideo(mCursor.getInt(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_VIDEO)) == 1);
+        movieModel.setVoteCount(mCursor.getInt(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_VOTE_COUNT)));
+        movieModel.setOriginalTitle(mCursor.getString(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_ORIGINAL_TITLE)));
+        movieModel.setOverview(mCursor.getString(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_OVERVIEW)));
+        movieModel.setBackdropPath(mCursor.getString(
+                mCursor.getColumnIndex(MovieEntry.COLUMN_BACKDROP_PATH)));
+
 
         return movieModel;
     }

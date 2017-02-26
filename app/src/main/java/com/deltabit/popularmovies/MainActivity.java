@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentAdapter.addFragment(topRatedFragment, getString(R.string.tab_title_topRated));
         fragmentAdapter.addFragment(popularFragment, getString(R.string.tab_title_popular));
         //TODO add favorite tab
-        //fragmentAdapter.addFragment(favoritesFragment, getString(R.string.tab_title_favorites));
+        fragmentAdapter.addFragment(favoritesFragment, getString(R.string.tab_title_favorites));
 
         mBinding.viewpagerMovies.setAdapter(fragmentAdapter);
     }

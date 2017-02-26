@@ -15,12 +15,13 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.deltabit.popularmovies.adapters.MovieAdapter;
-import com.deltabit.popularmovies.data.MovieContract;
+import com.deltabit.popularmovies.data.MovieContract.*;
 import com.deltabit.popularmovies.databinding.FragmentMoviesBinding;
 import com.deltabit.popularmovies.model.MovieModel;
 
@@ -42,7 +43,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     private FragmentMoviesBinding mBinding;
     private MovieAdapter mMovieAdapter;
-    private String mSortOrder;
+    private String mSource;
     private Context mContext;
 
     @Override
@@ -50,7 +51,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         super.onCreate(savedInstanceState);
 
         mContext = getContext();
-        mSortOrder = getArguments().getString(mContext.getString(R.string.filter_key));
+        mSource = getArguments().getString(mContext.getString(R.string.filter_key));
 
         mMovieAdapter = new MovieAdapter(mContext,
                 new MovieAdapter.MovieAdapterOnClickHandler() {
@@ -96,22 +97,25 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        Log.d(LOG_TAG,"onCreateLoader executing...");
+        //Log.d(LOG_TAG,"onCreateLoader executing on "+mSource);
 
         Uri selectedUri;
         String filterPopularity = mContext.getString(R.string.filter_popularity);
         String filterTopRated = mContext.getString(R.string.filter_topRated);
         String filterFavorites = mContext.getString(R.string.filter_favorites);
 
-        if(mSortOrder.equals(filterPopularity)){
-            selectedUri = MovieContract.PopularEntry.CONTENT_URI;
-        }else if(mSortOrder.equals(filterTopRated)){
-            selectedUri = MovieContract.TopRatedEntry.CONTENT_URI;
-        }else if(mSortOrder.equals(filterFavorites)){
-            selectedUri = MovieContract.FavoriteEntry.CONTENT_URI;
+
+        if(mSource.equals(filterPopularity)){
+            selectedUri = PopularEntry.CONTENT_URI;
+        }else if(mSource.equals(filterTopRated)){
+            selectedUri = TopRatedEntry.CONTENT_URI;
+        }else if(mSource.equals(filterFavorites)){
+            selectedUri = FavoriteEntry.CONTENT_URI;
         }else{
-            throw new UnsupportedOperationException("Unknown mSortOrder: "+ mSortOrder);
+            throw new UnsupportedOperationException("Unknown mSource: "+ mSource);
         }
+
+        //Log.d(LOG_TAG,"onCreateLoader() "+ selectedUri.toString());
 
         return new CursorLoader(
                 mContext,

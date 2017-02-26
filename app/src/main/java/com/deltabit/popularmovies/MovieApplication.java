@@ -20,14 +20,5 @@ public class MovieApplication extends Application {
                 .build()
         );
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String filterKey = this.getString(R.string.filter_key);
-
-        if(!sharedPreferences.contains(filterKey)){
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(filterKey,this.getString(R.string.filter_default));
-            editor.apply();
-        }
-
     }
 }
