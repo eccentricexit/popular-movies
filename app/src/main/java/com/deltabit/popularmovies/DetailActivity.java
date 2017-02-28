@@ -2,6 +2,7 @@ package com.deltabit.popularmovies;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,11 +17,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
+import android.view.animation.DecelerateInterpolator;
 
 import com.deltabit.popularmovies.adapters.CustomFragmentPagerAdapter;
 import com.deltabit.popularmovies.data.MovieContract;
@@ -164,19 +167,24 @@ public class DetailActivity extends AppCompatActivity implements
         }
         mDidAnimateEnter = true;
 
-        Log.d(LOG_TAG,"performAnimation()");
-        //TODO Animate scrollup to reveal content
-        final int startScrollPos = getResources()
-                .getDimensionPixelSize(R.dimen.scroll_animation_start);
-
-        Animator anim = ObjectAnimator.ofInt(
-                mBinding.coordinatorLDetailsActivity,
-                "scrollY",
-                startScrollPos)
-                .setDuration(375);
-        anim.setStartDelay(800);
-        //anim.start();
-
+        CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) mBinding.appBarLayout.getLayoutParams();
+        final AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+        if (behavior != null) {
+            ValueAnimator valueAnimator = ValueAnimator.ofInt();
+            valueAnimator.setInterpolator(new DecelerateInterpolator());
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    behavior.setTopAndBottomOffset((Integer) animation.getAnimatedValue());
+                    mBinding.appBarLayout.requestLayout();
+                }
+            });
+            valueAnimator.setIntValues(0, -500);
+            valueAnimator.setDuration(225);
+            valueAnimator.setStartDelay(1000);
+            valueAnimator.start();
+        }g
     }
 
     private void setupBasicInfo(MovieModel movieModel) {
@@ -243,12 +251,8 @@ public class DetailActivity extends AppCompatActivity implements
                     palette.getDarkVibrantColor(getResources().getColor(R.color.primary_dark))
             );
 
-        mBinding.tabLayoutMovieDetails.setBackgroundColor(
-                palette.getVibrantColor(getResources().getColor(R.color.primary))
-        );
-
         mBinding.linearlayoutContentMovieDetails.setBackgroundColor(
-                palette.getVibrantColor(getResources().getColor(R.color.primary))
+                palette.getDarkMutedColor(getResources().getColor(R.color.primary))
         );
     }
 

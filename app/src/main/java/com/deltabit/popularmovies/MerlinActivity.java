@@ -12,7 +12,7 @@ import com.novoda.merlin.registerable.connection.Connectable;
 import com.novoda.merlin.registerable.disconnection.Disconnectable;
 
 /**
- * Created by rigel @Overrideon 28/02/17.
+ * Created by rigel on 28/02/17.
  */
 
 public abstract class MerlinActivity extends AppCompatActivity implements Connectable,Disconnectable {
