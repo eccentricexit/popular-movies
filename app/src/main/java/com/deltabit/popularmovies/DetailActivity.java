@@ -184,7 +184,7 @@ public class DetailActivity extends AppCompatActivity implements
             valueAnimator.setDuration(225);
             valueAnimator.setStartDelay(1000);
             valueAnimator.start();
-        }g
+        }
     }
 
     private void setupBasicInfo(MovieModel movieModel) {
