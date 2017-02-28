@@ -125,6 +125,11 @@ public class ReviewsFragment extends Fragment {
                 mReviewAdapter.updateData(reviewModels);
                 mReviewAdapter.notifyDataSetChanged();
             }
+
+            if(reviewModels == null || reviewModels.size()==0)
+                mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.VISIBLE);
+            else
+                mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.GONE);
         }
     }
 

@@ -1,5 +1,7 @@
 package com.deltabit.popularmovies;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -38,6 +41,8 @@ public class DetailActivity extends AppCompatActivity implements
     public static final String MOVIE_MODEL_BUNDLE = "movie_model";
 
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
+
+
     private static final float SCREEN_PERCENTAGE = 0.85f;
     GradientDrawable mOval;
     private ActivityMovieDetailBinding mBinding;
@@ -159,7 +164,10 @@ public class DetailActivity extends AppCompatActivity implements
             return;
         }
         mDidAnimateEnter = true;
+
+        Log.d(LOG_TAG,"performAnimation()");
         //TODO Animate scrollup to reveal content
+
     }
 
     private void setupBasicInfo(MovieModel movieModel) {
@@ -206,7 +214,6 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
-        Log.d(LOG_TAG, "onEnterAnimationComplete()");
         performAnimation();
     }
 
@@ -231,8 +238,9 @@ public class DetailActivity extends AppCompatActivity implements
         mBinding.linearlayoutContentMovieDetails.setBackgroundColor(
                 palette.getVibrantColor(getResources().getColor(R.color.primary))
         );
-
     }
+
+
 
 
 }

@@ -129,6 +129,11 @@ public class TrailersFragment extends Fragment {
                 mTrailersAdapter.updateData(trailerModels);
                 mTrailersAdapter.notifyDataSetChanged();
             }
+
+            if(trailerModels == null || trailerModels.size()==0)
+                mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.VISIBLE);
+            else
+                mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.GONE);
         }
     }
 

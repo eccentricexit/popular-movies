@@ -172,9 +172,6 @@ public class MovieProvider extends ContentProvider {
                         FavoriteEntry.TABLE_NAME+"."+ MovieEntry.COLUMN_MOVIE_ID+" = "+
                         PopularEntry.TABLE_NAME+"."+ MovieEntry.COLUMN_MOVIE_ID;
 
-                Log.d(LOG_TAG,"topRatedSelect: "+selectTopRatedFavorites);
-                Log.d(LOG_TAG,"popularSelect: "+selectPopularFavorites);
-
                 String rawQuery = selectTopRatedFavorites + " UNION " +
                         selectPopularFavorites;
 
@@ -197,8 +194,6 @@ public class MovieProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
         }
-        Log.d(LOG_TAG,"query() "+uri.toString()+" gave:"+ resultCursor.getCount());
-        Log.d(LOG_TAG,"resultCursor has "+resultCursor.getColumnCount()+" columns");
 
         resultCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return resultCursor;

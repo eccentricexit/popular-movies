@@ -65,7 +65,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                                 Parcels.wrap(movieModel)
                         );
 
-                        //TODO Add shared element transition
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptionsCompat options = ActivityOptionsCompat
                                     .makeSceneTransitionAnimation(getActivity(), vh.imageView, getString(R.string.transition_poster));
@@ -91,8 +90,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
         getLoaderManager().initLoader(MOVIES_LOADER, null, this);
 
-        mBinding.progressbarFragmentMovies.setVisibility(View.VISIBLE);
-
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -104,7 +101,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        //Log.d(LOG_TAG,"onCreateLoader executing on "+mSource);
 
         Uri selectedUri;
         String filterPopularity = mContext.getString(R.string.filter_popularity);
@@ -136,11 +132,13 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        Log.d(LOG_TAG,"onLoadFinished executing...");
-//        Log.d(LOG_TAG,"cursor has size:" + data.getCount());
 
         mMovieAdapter.swapCursor(data);
-        mBinding.progressbarFragmentMovies.setVisibility(View.GONE);
+        Log.d(LOG_TAG,"onLoadFinished(): cursor has "+data.getCount()+" rows.");
+        if(data.getCount()==0)
+            mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.VISIBLE);
+        else
+            mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.GONE);
     }
 
     @Override

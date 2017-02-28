@@ -71,7 +71,6 @@ public class MovieContract {
 
 
         public static Uri buildFavoriteWithIdUri(long id) {
-            Log.d(LOG_TAG,"buildFavoriteWithIdUri(): "+CONTENT_URI.toString());
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 

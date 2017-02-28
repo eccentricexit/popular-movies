@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorL_details_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -58,7 +59,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
-            android:id="@+id/scrollView_movie_detail"
+            android:id="@+id/nestedscrollView_movie_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/content_background_color"
