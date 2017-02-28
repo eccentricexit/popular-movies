@@ -99,7 +99,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient contentProviderClient,
                               SyncResult syncResult) {
 
-        Log.d(LOG_TAG,"Performing sync...");
+        Log.d(LOG_TAG,"Attempting sync...");
 
         URL popularMoviesUrl = MovieContract.buildURLFor(MovieContract.POPULAR_URL);
         URL topRatedUrl = MovieContract.buildURLFor(MovieContract.TOP_RATED_URL);

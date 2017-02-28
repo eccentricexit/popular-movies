@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.deltabit.popularmovies.adapters.MovieAdapter;
 import com.deltabit.popularmovies.data.MovieContract.*;
@@ -28,6 +30,8 @@ import com.deltabit.popularmovies.databinding.FragmentMoviesBinding;
 import com.deltabit.popularmovies.model.MovieModel;
 
 import org.parceler.Parcels;
+
+import java.net.InetAddress;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,8 +44,11 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int MOVIES_LOADER = 1;
 
     //Using butterknife here because recyclerviews aren't databinding properly.
-    @BindView(R.id.recyclerview_main_activity)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerview_main_activity)   RecyclerView mRecyclerView;
+
+    //Using butterknife here because changes in visibility werent affecting the view
+    //when using databinding.
+    @BindView(R.id.item_no_data_available) LinearLayout  mItemNoData;
 
     private FragmentMoviesBinding mBinding;
     private MovieAdapter mMovieAdapter;
@@ -118,7 +125,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
             throw new UnsupportedOperationException("Unknown mSource: "+ mSource);
         }
 
-        //Log.d(LOG_TAG,"onCreateLoader() "+ selectedUri.toString());
 
         return new CursorLoader(
                 mContext,
@@ -132,13 +138,25 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
         mMovieAdapter.swapCursor(data);
+
         Log.d(LOG_TAG,"onLoadFinished(): cursor has "+data.getCount()+" rows.");
-        if(data.getCount()==0)
-            mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.VISIBLE);
-        else
-            mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.GONE);
+
+        if(data.getCount()==0) {
+            mItemNoData.setVisibility(View.VISIBLE);
+            if(!isInternetAvailable()){
+                Log.i(LOG_TAG,"No internet connection available.");
+                Snackbar.make(
+                        getView(),"No internet connection available.",Snackbar.LENGTH_SHORT
+                ).show();
+            }
+        }else {
+            mItemNoData.setVisibility(View.INVISIBLE);
+        }
+
+        Log.d(LOG_TAG,"Visibility: "+mItemNoData.getVisibility());
+
+
     }
 
     @Override
@@ -146,6 +164,9 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mMovieAdapter.swapCursor(null);
     }
 
-
+    public boolean isInternetAvailable() {
+        //TODO implement this.
+        return true;
+    }
 
 }

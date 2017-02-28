@@ -167,6 +167,16 @@ public class DetailActivity extends AppCompatActivity implements
 
         Log.d(LOG_TAG,"performAnimation()");
         //TODO Animate scrollup to reveal content
+        final int startScrollPos = getResources()
+                .getDimensionPixelSize(R.dimen.scroll_animation_start);
+
+        Animator anim = ObjectAnimator.ofInt(
+                mBinding.coordinatorLDetailsActivity,
+                "scrollY",
+                startScrollPos)
+                .setDuration(375);
+        anim.setStartDelay(800);
+        //anim.start();
 
     }
 
