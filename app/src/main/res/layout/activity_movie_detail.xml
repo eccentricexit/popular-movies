@@ -71,6 +71,7 @@
                 android:orientation="vertical">
                 <LinearLayout
                     android:id="@+id/linearlayout_content_movie_details"
+                    android:background="@color/primary"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:orientation="horizontal">

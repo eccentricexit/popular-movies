@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -131,7 +132,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private boolean isFavorite() {
-        Cursor res = getContentResolver().query(
+        Cursor cursor = getContentResolver().query(
                 MovieContract.FavoriteEntry.buildFavoriteWithIdUri(mMovieModel.getId()),
                 null,
                 MovieContract.FavoriteEntry.COLUMN_MOVIE_ID+" = ?",
@@ -139,9 +140,7 @@ public class DetailActivity extends AppCompatActivity implements
                 null
         );
 
-        Log.d(LOG_TAG,"isFavorite() count: "+res.getCount());
-
-        return res.getCount() > 0;
+        return cursor.getCount() > 0;
     }
 
     private void saveAsFavorite() {
@@ -186,10 +185,13 @@ public class DetailActivity extends AppCompatActivity implements
                 .into(mBinding.imageviewPosterMoviedetails);
 
 
-        Palette p = Palette.from((
-                (BitmapDrawable)mBinding.imageviewPosterMoviedetails.getDrawable()).getBitmap())
-                .generate();
-        applyPalette(p);
+        BitmapDrawable drawable = (BitmapDrawable)mBinding.imageviewPosterMoviedetails.getDrawable();
+        if(drawable!=null) {
+            Palette p = Palette.from(
+                    (drawable).getBitmap())
+                    .generate();
+            applyPalette(p);
+        }
 
         mBinding.toolbarMovieDetails.setTitle(movieModel.getTitle().toUpperCase());
         mBinding.toolbarMovieDetails.setTitleTextColor(Color.WHITE);

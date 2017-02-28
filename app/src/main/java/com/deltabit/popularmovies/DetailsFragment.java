@@ -19,8 +19,7 @@ public class DetailsFragment extends Fragment {
     FragmentMovieDetailsBinding mBinding;
     MovieModel mMovieModel;
 
-    public DetailsFragment() {
-    }
+    public DetailsFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

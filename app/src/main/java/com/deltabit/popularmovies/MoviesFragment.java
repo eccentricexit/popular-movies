@@ -23,11 +23,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.deltabit.popularmovies.adapters.MovieAdapter;
 import com.deltabit.popularmovies.data.MovieContract.*;
 import com.deltabit.popularmovies.databinding.FragmentMoviesBinding;
 import com.deltabit.popularmovies.model.MovieModel;
+import com.novoda.merlin.MerlinsBeard;
 
 import org.parceler.Parcels;
 
@@ -46,7 +49,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     //Using butterknife here because recyclerviews aren't databinding properly.
     @BindView(R.id.recyclerview_main_activity)   RecyclerView mRecyclerView;
 
-    //Using butterknife here because changes in visibility werent affecting the view
+    //Using butterknife here because changes in visibility weren't affecting the view
     //when using databinding.
     @BindView(R.id.item_no_data_available) LinearLayout  mItemNoData;
 
@@ -92,9 +95,9 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
-        ButterKnife.bind(this, rootView);
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        View rootView = mBinding.getRoot();
+        ButterKnife.bind(this, rootView);
         getLoaderManager().initLoader(MOVIES_LOADER, null, this);
 
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
@@ -140,23 +143,15 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mMovieAdapter.swapCursor(data);
 
-        Log.d(LOG_TAG,"onLoadFinished(): cursor has "+data.getCount()+" rows.");
-
         if(data.getCount()==0) {
             mItemNoData.setVisibility(View.VISIBLE);
-            if(!isInternetAvailable()){
-                Log.i(LOG_TAG,"No internet connection available.");
-                Snackbar.make(
-                        getView(),"No internet connection available.",Snackbar.LENGTH_SHORT
-                ).show();
+            if(!MerlinsBeard.from(mContext).isConnected()){
+                Toast.makeText(mContext, getString(R.string.no_internet_message), Toast.LENGTH_SHORT).show();
             }
+
         }else {
             mItemNoData.setVisibility(View.INVISIBLE);
         }
-
-        Log.d(LOG_TAG,"Visibility: "+mItemNoData.getVisibility());
-
-
     }
 
     @Override
@@ -164,9 +159,5 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mMovieAdapter.swapCursor(null);
     }
 
-    public boolean isInternetAvailable() {
-        //TODO implement this.
-        return true;
-    }
 
 }

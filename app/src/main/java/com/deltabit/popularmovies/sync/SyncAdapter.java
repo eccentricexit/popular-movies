@@ -76,18 +76,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private static void onAccountCreated(Account newAccount, Context context) {
-//        Log.d(LOG_TAG,"onAccountCreated executing...");
         ContentResolver.setIsSyncable(newAccount, MovieContract.CONTENT_AUTHORITY, 1);
         ContentResolver.setSyncAutomatically(newAccount, MovieContract.CONTENT_AUTHORITY, true);
     }
 
-    private static void syncImmediately(Context context) {
-//        Log.d(LOG_TAG,"syncImmediately executing...");
+    public static void syncImmediately(Context context) {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
 
-//        Log.d(LOG_TAG,"Requesting sync...");
+
         ContentResolver.requestSync(getSyncAccount(context),
                 context.getString(R.string.content_authority), bundle);
     }

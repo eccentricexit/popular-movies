@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.deltabit.popularmovies.model.MovieModel;
 import com.deltabit.popularmovies.model.TrailerModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.novoda.merlin.MerlinsBeard;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -63,7 +65,9 @@ public class TrailersFragment extends Fragment {
         mBinding.recyclerviewTrailersFragment.setAdapter(mTrailersAdapter);
 
         //TODO change to execute only once
-        new AsyncGetTrailers().execute();
+        if(MerlinsBeard.from(getContext()).isConnected())
+            new AsyncGetTrailers().execute();
+
 
         return view;
     }
@@ -76,6 +80,12 @@ public class TrailersFragment extends Fragment {
 
     //TODO Create generic asynctask
     class AsyncGetTrailers extends AsyncTask<String, Void, List<TrailerModel>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mBinding.progressbar.setVisibility(View.VISIBLE);
+            mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.GONE);
+        }
 
         @Override
         protected List<TrailerModel> doInBackground(String... strings) {
@@ -125,6 +135,8 @@ public class TrailersFragment extends Fragment {
         @Override
         protected void onPostExecute(List<TrailerModel> trailerModels) {
             super.onPostExecute(trailerModels);
+            mBinding.progressbar.setVisibility(View.GONE);
+
             if (trailerModels != null) {
                 mTrailersAdapter.updateData(trailerModels);
                 mTrailersAdapter.notifyDataSetChanged();

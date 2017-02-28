@@ -46,6 +46,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'com.novoda:merlin:0.8.0'
 
     testCompile 'junit:junit:4.12'
     annotationProcessor 'org.parceler:parceler:1.1.6'

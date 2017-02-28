@@ -14,7 +14,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textSize="@dimen/subtitle_size"
         app:layout_constraintLeft_toLeftOf="parent"

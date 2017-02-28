@@ -39,6 +39,8 @@
     <string name="tab_title_favorites">Favorites</string>
     <string name="ellipsis">&#8230;</string>
     <string name="no_data_available_message">No data available.</string>
+    <string name="no_internet_message">No internet connection available.</string>
+    <string name="internet_accquired_message">Internet connection acquired.</string>
 
 
 </resources>

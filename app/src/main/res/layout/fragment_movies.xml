@@ -19,31 +19,15 @@
         tools:listitem="@layout/item_recycler_main_activity"
         />
 
-        <LinearLayout
+        <include layout="@layout/item_no_data_available"
             android:id="@+id/item_no_data_available"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:gravity="center"
             android:visibility="gone"
-            >
-            <TextView
-                android:text="@string/ellipsis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="132sp"
-                android:textColor="@color/secondary_text"
-                android:layout_marginTop="-70dp"
-                android:layout_marginBottom="-20dp" />
-            <TextView
-                android:text="@string/no_data_available_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
-                android:textSize="14sp"
-                android:layout_marginBottom="50dp" />
+            />
 
-        </LinearLayout>
 
 
 </FrameLayout>

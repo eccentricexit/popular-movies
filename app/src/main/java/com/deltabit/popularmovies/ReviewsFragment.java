@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.deltabit.popularmovies.data.MovieContract;
@@ -20,6 +21,7 @@ import com.deltabit.popularmovies.model.MovieModel;
 import com.deltabit.popularmovies.model.ReviewModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.novoda.merlin.MerlinsBeard;
 
 import org.json.JSONObject;
 import org.parceler.Parcels;
@@ -31,6 +33,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -44,15 +49,16 @@ public class ReviewsFragment extends Fragment {
     ReviewsAdapter mReviewAdapter;
 
 
-    public ReviewsFragment() {
-    }
+    public ReviewsFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_reviews, container, false);
+        View rootView = mBinding.getRoot();
+        ButterKnife.bind(this, rootView);
 
-        View view = mBinding.getRoot();
+
         mMovieModel = Parcels.unwrap(
                 this.getArguments().getParcelable(DetailActivity.MOVIE_MODEL_BUNDLE));
 
@@ -61,9 +67,11 @@ public class ReviewsFragment extends Fragment {
         mBinding.recyclerviewReviewsFragment.setAdapter(mReviewAdapter);
 
         //TODO change to execute only once
-        new AsyncGetReviews().execute();
+        if(MerlinsBeard.from(getContext()).isConnected()) {
+            new AsyncGetReviews().execute();
+        }
 
-        return view;
+        return rootView;
     }
 
     @Override
@@ -72,6 +80,12 @@ public class ReviewsFragment extends Fragment {
     }
 
     class AsyncGetReviews extends AsyncTask<String, Void, List<ReviewModel>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mBinding.progressbar.setVisibility(View.VISIBLE);
+            mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.GONE);
+        }
 
         @Override
         protected List<ReviewModel> doInBackground(String... strings) {
@@ -83,7 +97,6 @@ public class ReviewsFragment extends Fragment {
                     .appendPath(MovieContract.REVIEWS_URL)
                     .appendQueryParameter(MovieContract.PARAM_API_KEY, BuildConfig.THE_MOVIE_DB_KEY)
                     .build();
-            Log.d(LOG_TAG,uri.toString());
 
             HttpURLConnection urlConnection = null;
             try {
@@ -121,6 +134,8 @@ public class ReviewsFragment extends Fragment {
         @Override
         protected void onPostExecute(List<ReviewModel> reviewModels) {
             super.onPostExecute(reviewModels);
+            mBinding.progressbar.setVisibility(View.GONE);
+
             if (reviewModels != null) {
                 mReviewAdapter.updateData(reviewModels);
                 mReviewAdapter.notifyDataSetChanged();
