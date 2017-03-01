@@ -240,8 +240,12 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void applyPalette(Palette palette) {
-        int vibrantColor = palette.getVibrantColor(getResources().getColor(R.color.primary));
-        int darkVibrantColor = palette.getDarkVibrantColor(getResources().getColor(R.color.primary_dark));
+        int vibrantColor = palette.getVibrantColor(
+                palette.getMutedColor(getResources().getColor(R.color.content_background_color))
+        );
+        int darkVibrantColor = palette.getDarkVibrantColor(
+                palette.getDarkMutedColor(getResources().getColor(R.color.content_dark_background_color))
+        );
 
         mBinding.collapsingToolbarLayout.setContentScrimColor(vibrantColor);
         mBinding.collapsingToolbarLayout.setStatusBarScrimColor(vibrantColor);

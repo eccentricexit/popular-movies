@@ -12,4 +12,5 @@
 
     <color name="translucent_black">#ac000000</color>
     <color name="content_background_color">#f2f2f2</color>
+    <color name="content_dark_background_color">#cccccc</color>
 </resources>
