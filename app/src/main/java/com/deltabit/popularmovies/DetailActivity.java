@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.databinding.DataBindingUtil;
@@ -23,6 +24,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.deltabit.popularmovies.adapters.CustomFragmentPagerAdapter;
@@ -181,8 +183,8 @@ public class DetailActivity extends AppCompatActivity implements
                 }
             });
             valueAnimator.setIntValues(0, -500);
-            valueAnimator.setDuration(225);
-            valueAnimator.setStartDelay(1000);
+            valueAnimator.setDuration(300);
+            valueAnimator.setStartDelay(500);
             valueAnimator.start();
         }
     }
@@ -238,25 +240,54 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void applyPalette(Palette palette) {
-        mBinding.collapsingToolbarLayout.setContentScrimColor(
-                palette.getVibrantColor(getResources().getColor(R.color.primary))
-        );
+        int vibrantColor = palette.getVibrantColor(getResources().getColor(R.color.primary));
+        int darkVibrantColor = palette.getDarkVibrantColor(getResources().getColor(R.color.primary_dark));
 
-        mBinding.collapsingToolbarLayout.setStatusBarScrimColor(
-                palette.getVibrantColor(getResources().getColor(R.color.primary))
-        );
+        mBinding.collapsingToolbarLayout.setContentScrimColor(vibrantColor);
+        mBinding.collapsingToolbarLayout.setStatusBarScrimColor(vibrantColor);
+        mBinding.linearlayoutContentMovieDetails.setBackgroundColor(vibrantColor);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            getWindow().setStatusBarColor(
-                    palette.getDarkVibrantColor(getResources().getColor(R.color.primary_dark))
+            getWindow().setStatusBarColor(darkVibrantColor);
+
+        if(isBrightColor(vibrantColor)){
+            mBinding.tabLayoutMovieDetails.setTabTextColors(
+                    getResources().getColor(R.color.primary_text),
+                    getResources().getColor(R.color.primary_text)
             );
 
-        mBinding.linearlayoutContentMovieDetails.setBackgroundColor(
-                palette.getDarkMutedColor(getResources().getColor(R.color.primary))
-        );
+            mBinding.collapsingToolbarLayout.setCollapsedTitleTextColor(
+                    getResources().getColor(R.color.primary_text)
+            );
+        }
+
     }
 
+    public void share_onClick(View view) {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        String shareBodyText = "Hey, what do you think of "+mMovieModel.getTitle()+"?";
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Movie suggestion");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        startActivity(Intent.createChooser(intent, "Choose sharing method"));
+    }
 
+    private boolean isBrightColor(int color) {
+        if (android.R.color.transparent == color)
+            return true;
 
+        boolean rtnValue = false;
 
+        int[] rgb = { Color.red(color), Color.green(color), Color.blue(color) };
+
+        int brightness = (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
+                * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
+
+        // color is light
+        if (brightness >= 180) {
+            rtnValue = true;
+        }
+
+        return rtnValue;
+    }
 }

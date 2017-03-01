@@ -54,6 +54,18 @@
                     app:titleTextColor="@android:color/white"
                      />
 
+                <ImageButton
+                    android:contentDescription="@string/share_button_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginRight="8dp"
+                    android:src="@android:drawable/ic_menu_share"
+                    android:onClick="share_onClick"
+                    android:layout_gravity="right|top"
+                    android:background="@null"
+                    app:layout_collapseMode="pin"
+                    />
+
             </android.support.design.widget.CollapsingToolbarLayout>
 
         </android.support.design.widget.AppBarLayout>
@@ -88,11 +100,10 @@
                 </LinearLayout>
 
 
-
                 <com.deltabit.popularmovies.CustomViewPager
                     android:id="@+id/viewPager_movie_details"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
 
@@ -105,6 +116,7 @@
             android:layout_width="@dimen/fab_size"
             android:layout_height="@dimen/fab_size"
             android:layout_margin="@dimen/fab_margin"
+            android:elevation="8dp"
             android:background="@drawable/oval_shape"
             app:layout_anchor="@id/app_bar_layout"
             app:layout_anchorGravity="bottom|end">

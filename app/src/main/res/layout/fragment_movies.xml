@@ -4,31 +4,29 @@
 
 
     <FrameLayout
-    android:id="@+id/activity_discovery"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/primary_light"
-    tools:context="com.deltabit.popularmovies.MainActivity">
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_main_activity"
+        android:id="@+id/activity_discovery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:nestedScrollingEnabled="false"
-        tools:listitem="@layout/item_recycler_main_activity"
-        />
+        android:background="@color/primary_light"
+        tools:context="com.deltabit.popularmovies.MainActivity">
 
-        <include layout="@layout/item_no_data_available"
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_main_activity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/item_recycler_main_activity" />
+
+        <include
             android:id="@+id/item_no_data_available"
-            android:orientation="vertical"
+            layout="@layout/item_no_data_available"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:gravity="center"
-            android:visibility="gone"
-            />
+            android:orientation="vertical"
+            android:visibility="gone" />
 
 
-
-</FrameLayout>
+    </FrameLayout>
 </layout>

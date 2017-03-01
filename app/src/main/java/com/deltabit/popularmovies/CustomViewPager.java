@@ -29,9 +29,10 @@ public class CustomViewPager extends ViewPager {
         }
         int height = 0;
         mCurrentView.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-        int h = mCurrentView.getMeasuredHeight();
+        int h = mCurrentView.getMeasuredHeight()>heightMeasureSpec?mCurrentView.getMeasuredHeight():heightMeasureSpec;
         if (h > height) height = h;
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
