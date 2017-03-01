@@ -2,9 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
+        android:background="@color/content_background_color"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout_movies"
             android:layout_height="?attr/actionBarSize"
