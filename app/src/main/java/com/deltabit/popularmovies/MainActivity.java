@@ -3,30 +3,19 @@ package com.deltabit.popularmovies;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.deltabit.popularmovies.adapters.CustomFragmentPagerAdapter;
 import com.deltabit.popularmovies.databinding.ActivityMainBinding;
 import com.deltabit.popularmovies.sync.SyncAdapter;
-import com.novoda.merlin.Merlin;
-import com.novoda.merlin.MerlinsBeard;
-import com.novoda.merlin.registerable.connection.Connectable;
-import com.novoda.merlin.registerable.disconnection.Disconnectable;
-
-import org.parceler.Parcels;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends MerlinActivity{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    ActivityMainBinding mBinding;
+    private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

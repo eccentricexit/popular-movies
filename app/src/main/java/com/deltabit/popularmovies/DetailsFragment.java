@@ -16,8 +16,8 @@ import org.parceler.Parcels;
 public class DetailsFragment extends Fragment {
 
     private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
-    FragmentMovieDetailsBinding mBinding;
-    MovieModel mMovieModel;
+    private FragmentMovieDetailsBinding mBinding;
+    private MovieModel mMovieModel;
 
     public DetailsFragment() { }
 

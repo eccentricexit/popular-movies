@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -23,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.deltabit.popularmovies.adapters.MovieAdapter;
@@ -33,8 +31,6 @@ import com.deltabit.popularmovies.model.MovieModel;
 import com.novoda.merlin.MerlinsBeard;
 
 import org.parceler.Parcels;
-
-import java.net.InetAddress;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,13 +43,14 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int MOVIES_LOADER = 1;
 
     //Using butterknife here because recyclerviews aren't databinding properly.
-    @BindView(R.id.recyclerview_main_activity)   RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerview_main_activity)
+    RecyclerView mRecyclerView;
 
     //Using butterknife here because changes in visibility weren't affecting the view
     //when using databinding.
-    @BindView(R.id.item_no_data_available) LinearLayout  mItemNoData;
+    @BindView(R.id.item_no_data_available)
+    LinearLayout  mItemNoData;
 
-    private FragmentMoviesBinding mBinding;
     private MovieAdapter mMovieAdapter;
     private String mSource;
     private Context mContext;
@@ -95,7 +92,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        FragmentMoviesBinding mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
         View rootView = mBinding.getRoot();
         ButterKnife.bind(this, rootView);
         getLoaderManager().initLoader(MOVIES_LOADER, null, this);
@@ -152,6 +149,8 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         }else {
             mItemNoData.setVisibility(View.INVISIBLE);
         }
+
+        Log.d(LOG_TAG,"recyclerview height: "+mRecyclerView.getHeight());
     }
 
     @Override

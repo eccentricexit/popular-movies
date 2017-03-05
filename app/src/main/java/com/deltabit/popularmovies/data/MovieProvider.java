@@ -6,14 +6,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
-import com.deltabit.popularmovies.data.MovieContract.FavoriteEntry;
-import com.deltabit.popularmovies.data.MovieContract.PopularEntry;
-import com.deltabit.popularmovies.data.MovieContract.TopRatedEntry;
 import com.deltabit.popularmovies.data.MovieContract.*;
-
-import org.abego.treelayout.internal.util.Contract;
 
 /**
  * Created by rigel on 23/01/17.

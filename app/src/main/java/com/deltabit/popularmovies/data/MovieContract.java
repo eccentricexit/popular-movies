@@ -5,7 +5,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import com.deltabit.popularmovies.BuildConfig;
 import com.deltabit.popularmovies.R;

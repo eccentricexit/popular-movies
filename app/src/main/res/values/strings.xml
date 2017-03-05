@@ -42,6 +42,8 @@
     <string name="no_internet_message">No internet connection available.</string>
     <string name="internet_accquired_message">Internet connection acquired.</string>
     <string name="share_button_description">Share button</string>
+    <string name="trailers_content_description">Trailer thumbnail.</string>
+    <string name="movie_details_poster_content_description">Movie details poster.</string>
 
 
 </resources>

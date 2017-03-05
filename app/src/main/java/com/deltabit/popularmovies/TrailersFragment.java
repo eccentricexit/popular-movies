@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +42,9 @@ import java.util.Scanner;
 public class TrailersFragment extends Fragment {
 
     private static final String LOG_TAG = TrailersFragment.class.getSimpleName();
-    FragmentMovieTrailersBinding mBinding;
-    MovieModel mMovieModel;
-    TrailersAdapter mTrailersAdapter;
+    private FragmentMovieTrailersBinding mBinding;
+    private MovieModel mMovieModel;
+    private TrailersAdapter mTrailersAdapter;
 
     public TrailersFragment() {
     }
@@ -64,7 +63,7 @@ public class TrailersFragment extends Fragment {
         mBinding.recyclerviewTrailersFragment.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.recyclerviewTrailersFragment.setAdapter(mTrailersAdapter);
 
-        //TODO change to execute only once
+
         if(MerlinsBeard.from(getContext()).isConnected())
             new AsyncGetTrailers().execute();
 
@@ -72,14 +71,8 @@ public class TrailersFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
 
-
-    //TODO Create generic asynctask
-    class AsyncGetTrailers extends AsyncTask<String, Void, List<TrailerModel>> {
+    private class AsyncGetTrailers extends AsyncTask<String, Void, List<TrailerModel>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -152,7 +145,7 @@ public class TrailersFragment extends Fragment {
 
     public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHolder> {
 
-        List<TrailerModel> mTrailerModels = new ArrayList<>();
+        final List<TrailerModel> mTrailerModels = new ArrayList<>();
 
         public void updateData(List<TrailerModel> newTrailerModels) {
             mTrailerModels.clear();
@@ -165,9 +158,8 @@ public class TrailersFragment extends Fragment {
             LayoutInflater inflater = LayoutInflater.from(context);
 
             View trailerItemView = inflater.inflate(R.layout.item_recycler_trailers, parent, false);
-            TrailersAdapter.ViewHolder viewHolder = new TrailersAdapter.ViewHolder(trailerItemView);
 
-            return viewHolder;
+            return new ViewHolder(trailerItemView);
         }
 
         @Override
@@ -202,7 +194,7 @@ public class TrailersFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            ImageView trailerThumbnail;
+            final ImageView trailerThumbnail;
 
             public ViewHolder(View itemView) {
                 super(itemView);

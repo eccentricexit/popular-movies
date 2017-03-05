@@ -43,7 +43,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
 
 
-    public SyncAdapter(Context context, boolean autoInitialize) {
+    public SyncAdapter(Context context) {
         super(context, true);
         ContentResolver mContentResolver = context.getContentResolver();
     }
@@ -80,7 +80,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         ContentResolver.setSyncAutomatically(newAccount, MovieContract.CONTENT_AUTHORITY, true);
     }
 
-    public static void syncImmediately(Context context) {
+    private static void syncImmediately(Context context) {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);

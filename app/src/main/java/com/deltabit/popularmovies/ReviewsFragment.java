@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.deltabit.popularmovies.data.MovieContract;
@@ -34,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -44,9 +41,9 @@ import butterknife.ButterKnife;
 public class ReviewsFragment extends Fragment {
 
     private static final String LOG_TAG = ReviewsFragment.class.getSimpleName();
-    FragmentMovieReviewsBinding mBinding;
-    MovieModel mMovieModel;
-    ReviewsAdapter mReviewAdapter;
+    private FragmentMovieReviewsBinding mBinding;
+    private MovieModel mMovieModel;
+    private ReviewsAdapter mReviewAdapter;
 
 
     public ReviewsFragment() { }
@@ -66,7 +63,6 @@ public class ReviewsFragment extends Fragment {
         mBinding.recyclerviewReviewsFragment.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.recyclerviewReviewsFragment.setAdapter(mReviewAdapter);
 
-        //TODO change to execute only once
         if(MerlinsBeard.from(getContext()).isConnected()) {
             new AsyncGetReviews().execute();
         }
@@ -74,12 +70,7 @@ public class ReviewsFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    class AsyncGetReviews extends AsyncTask<String, Void, List<ReviewModel>> {
+    private class AsyncGetReviews extends AsyncTask<String, Void, List<ReviewModel>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -151,7 +142,7 @@ public class ReviewsFragment extends Fragment {
 
     public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
-        List<ReviewModel> mReviewModels = new ArrayList<>();
+        final List<ReviewModel> mReviewModels = new ArrayList<>();
 
         public void updateData(List<ReviewModel> newReviewModels) {
             mReviewModels.clear();
@@ -164,9 +155,8 @@ public class ReviewsFragment extends Fragment {
             LayoutInflater inflater = LayoutInflater.from(context);
 
             View reviewItemView = inflater.inflate(R.layout.item_recycler_reviews, parent, false);
-            ViewHolder viewHolder = new ViewHolder(reviewItemView);
 
-            return viewHolder;
+            return new ViewHolder(reviewItemView);
         }
 
         @Override
@@ -189,8 +179,8 @@ public class ReviewsFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView author;
-            TextView review;
+            final TextView author;
+            final TextView review;
 
             public ViewHolder(View itemView) {
                 super(itemView);

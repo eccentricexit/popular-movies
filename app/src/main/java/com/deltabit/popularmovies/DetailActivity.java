@@ -1,21 +1,16 @@
 package com.deltabit.popularmovies;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -23,7 +18,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
@@ -50,9 +44,8 @@ public class DetailActivity extends AppCompatActivity implements
 
 
     private static final float SCREEN_PERCENTAGE = 0.85f;
-    GradientDrawable mOval;
+    private GradientDrawable mOval;
     private ActivityMovieDetailBinding mBinding;
-    private CustomFragmentPagerAdapter mAdapter;
     private boolean mIsFabHidden;
     private int mMaxScrollSize;
     private boolean mDidAnimateEnter = false;
@@ -86,7 +79,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void setupViewPager(MovieModel mMovieModel) {
-        mAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
+        CustomFragmentPagerAdapter mAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(MOVIE_MODEL_BUNDLE, Parcels.wrap(mMovieModel));
@@ -145,7 +138,10 @@ public class DetailActivity extends AppCompatActivity implements
                 null
         );
 
-        return cursor.getCount() > 0;
+        boolean isFavorite = cursor.getCount() > 0;
+        cursor.close();
+
+        return isFavorite;
     }
 
     private void saveAsFavorite() {
@@ -163,7 +159,7 @@ public class DetailActivity extends AppCompatActivity implements
         );
     }
 
-    protected void performAnimation() {
+    private void performAnimation() {
         if (mDidAnimateEnter) {
             return;
         }

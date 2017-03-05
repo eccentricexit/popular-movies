@@ -1,13 +1,9 @@
 package com.deltabit.popularmovies;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.novoda.merlin.Merlin;
-import com.novoda.merlin.registerable.bind.Bindable;
 import com.novoda.merlin.registerable.connection.Connectable;
 import com.novoda.merlin.registerable.disconnection.Disconnectable;
 
@@ -17,7 +13,7 @@ import com.novoda.merlin.registerable.disconnection.Disconnectable;
 
 public abstract class MerlinActivity extends AppCompatActivity implements Connectable,Disconnectable {
 
-    protected Merlin merlin;
+    private Merlin merlin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +21,11 @@ public abstract class MerlinActivity extends AppCompatActivity implements Connec
         merlin = createMerlin();
     }
 
-    protected void registerConnectable(Connectable connectable) {
+    private void registerConnectable(Connectable connectable) {
         merlin.registerConnectable(connectable);
     }
 
-    protected void registerDisconnectable(Disconnectable disconnectable) {
+    private void registerDisconnectable(Disconnectable disconnectable) {
         merlin.registerDisconnectable(disconnectable);
     }
 
@@ -48,7 +44,7 @@ public abstract class MerlinActivity extends AppCompatActivity implements Connec
     }
 
 
-    protected Merlin createMerlin() {
+    private Merlin createMerlin() {
         return new Merlin.Builder()
                 .withConnectableCallbacks()
                 .withDisconnectableCallbacks()

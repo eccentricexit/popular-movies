@@ -1,8 +1,6 @@
 package com.deltabit.popularmovies;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
