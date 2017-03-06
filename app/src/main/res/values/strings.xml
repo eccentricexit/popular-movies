@@ -34,6 +34,8 @@
     <string name="share_button_description">Share button</string>
     <string name="trailers_content_description">Trailer thumbnail.</string>
     <string name="movie_details_poster_content_description">Movie details poster.</string>
+    <string name="share_message_template">Hey, what do you think of </string>
+    <string name="share_url_template">Hey, check out this movie:</string>
 
 
 </resources>

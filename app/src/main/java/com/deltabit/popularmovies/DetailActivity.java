@@ -51,6 +51,7 @@ public class DetailActivity extends AppCompatActivity implements
     private int mMaxScrollSize;
     private boolean mDidAnimateEnter = false;
     private MovieModel mMovieModel;
+    private String movieUrl;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -95,8 +96,9 @@ public class DetailActivity extends AppCompatActivity implements
         detailsFragment.setArguments(bundle);
 
         mAdapter.addFragment(detailsFragment, getString(R.string.tab_title_details));
-        mAdapter.addFragment(reviewsFragment, getString(R.string.tab_title_reviews));
         mAdapter.addFragment(trailerFragment, getString(R.string.tab_title_trailers));
+        mAdapter.addFragment(reviewsFragment, getString(R.string.tab_title_reviews));
+
 
         mBinding.viewPagerMovieDetails.setAdapter(mAdapter);
     }
@@ -264,10 +266,17 @@ public class DetailActivity extends AppCompatActivity implements
 
     }
 
-    public void share_onClick() {
+    public void share_onClick(View view) {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
-        String shareBodyText = "Hey, what do you think of "+mMovieModel.getTitle()+"?";
+        String shareBodyText;
+
+        if(movieUrl==null)
+            shareBodyText=getString(R.string.share_message_template)+mMovieModel.getTitle()+"?";
+        else
+            shareBodyText=getString(R.string.share_url_template)+movieUrl;
+
+
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Movie suggestion");
         intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
         startActivity(Intent.createChooser(intent, "Choose sharing method"));
@@ -290,5 +299,9 @@ public class DetailActivity extends AppCompatActivity implements
         }
 
         return rtnValue;
+    }
+
+    public void setMovieUrl(String movieUrl) {
+        this.movieUrl = movieUrl;
     }
 }

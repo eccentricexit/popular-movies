@@ -137,8 +137,11 @@ public class TrailersFragment extends Fragment {
 
             if(trailerModels == null || trailerModels.size()==0)
                 mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.VISIBLE);
-            else
+            else {
                 mBinding.includedItemNoData.itemNoDataAvailable.setVisibility(View.GONE);
+                ((DetailActivity)getActivity()).setMovieUrl("http://www.youtube.com/watch?v="+trailerModels.get(0).getKey());
+
+            }
         }
     }
 
