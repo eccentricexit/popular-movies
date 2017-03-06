@@ -68,14 +68,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 return null;
             }
 
-            onAccountCreated(newAccount, context);
+            onAccountCreated(newAccount);
         }
 
         return newAccount;
 
     }
 
-    private static void onAccountCreated(Account newAccount, Context context) {
+    private static void onAccountCreated(Account newAccount) {
         ContentResolver.setIsSyncable(newAccount, MovieContract.CONTENT_AUTHORITY, 1);
         ContentResolver.setSyncAutomatically(newAccount, MovieContract.CONTENT_AUTHORITY, true);
     }

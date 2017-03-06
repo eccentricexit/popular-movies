@@ -46,7 +46,6 @@ public class DetailActivity extends AppCompatActivity implements
     private static final float SCREEN_PERCENTAGE = 0.85f;
     private GradientDrawable mOval;
     private ActivityMovieDetailBinding mBinding;
-    private DetailsFragmentPagerAdapter mAdapter;
 
     private boolean mIsFabHidden;
     private int mMaxScrollSize;
@@ -81,7 +80,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void setupViewPager(MovieModel mMovieModel) {
-        mAdapter = new DetailsFragmentPagerAdapter(getSupportFragmentManager());
+        DetailsFragmentPagerAdapter mAdapter = new DetailsFragmentPagerAdapter(getSupportFragmentManager());
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(MOVIE_MODEL_BUNDLE, Parcels.wrap(mMovieModel));
@@ -265,7 +264,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     }
 
-    public void share_onClick(View view) {
+    public void share_onClick() {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
         String shareBodyText = "Hey, what do you think of "+mMovieModel.getTitle()+"?";

@@ -12,7 +12,6 @@ import android.view.View;
 public class DetailsViewPager extends ViewPager {
 
     private View mCurrentView;
-    boolean mAutoResize = true;
 
     public DetailsViewPager(Context context) {
         super(context);
@@ -24,9 +23,6 @@ public class DetailsViewPager extends ViewPager {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-
-        if(mAutoResize ==true) {
             if (mCurrentView == null) {
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec);
                 return;
@@ -37,7 +33,7 @@ public class DetailsViewPager extends ViewPager {
             if (h > height) height = h;
 
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-        }
+
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

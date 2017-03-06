@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.deltabit.popularmovies.adapters.DetailsFragmentPagerAdapter;
 import com.deltabit.popularmovies.adapters.MainFragmentPagerAdapter;
 import com.deltabit.popularmovies.databinding.ActivityMainBinding;
 import com.deltabit.popularmovies.sync.SyncAdapter;

@@ -16,18 +16,16 @@ import org.parceler.Parcels;
 public class DetailsFragment extends Fragment {
 
     private static final String LOG_TAG = DetailsFragment.class.getSimpleName();
-    private FragmentMovieDetailsBinding mBinding;
-    private MovieModel mMovieModel;
 
     public DetailsFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false);
+        FragmentMovieDetailsBinding mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false);
         View view = mBinding.getRoot();
 
-        mMovieModel = Parcels.unwrap(
+        MovieModel mMovieModel = Parcels.unwrap(
                 this.getArguments().getParcelable(DetailActivity.MOVIE_MODEL_BUNDLE));
 
         mBinding.releaseDate.setText(mMovieModel.getReleaseDate());
