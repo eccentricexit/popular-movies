@@ -101,7 +101,8 @@
                 </LinearLayout>
 
 
-                <android.support.v4.view.ViewPager
+
+                <com.deltabit.popularmovies.DetailsViewPager
                     android:id="@+id/viewPager_movie_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

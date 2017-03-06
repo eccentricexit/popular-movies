@@ -12,12 +12,11 @@ import java.util.List;
  * Created by rigel on 18/02/17.
  */
 
-public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
+public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragments = new ArrayList<>();
     private final List<String> mFragmentTitles = new ArrayList<>();
 
-
-    public CustomFragmentPagerAdapter(FragmentManager fm) {
+    public MainFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -40,5 +39,6 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitles.get(position);
     }
+
 
 }

@@ -21,7 +21,7 @@ import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-import com.deltabit.popularmovies.adapters.CustomFragmentPagerAdapter;
+import com.deltabit.popularmovies.adapters.DetailsFragmentPagerAdapter;
 import com.deltabit.popularmovies.data.MovieContract;
 import com.deltabit.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.deltabit.popularmovies.model.MovieModel;
@@ -46,6 +46,8 @@ public class DetailActivity extends AppCompatActivity implements
     private static final float SCREEN_PERCENTAGE = 0.85f;
     private GradientDrawable mOval;
     private ActivityMovieDetailBinding mBinding;
+    private DetailsFragmentPagerAdapter mAdapter;
+
     private boolean mIsFabHidden;
     private int mMaxScrollSize;
     private boolean mDidAnimateEnter = false;
@@ -79,7 +81,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void setupViewPager(MovieModel mMovieModel) {
-        CustomFragmentPagerAdapter mAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
+        mAdapter = new DetailsFragmentPagerAdapter(getSupportFragmentManager());
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(MOVIE_MODEL_BUNDLE, Parcels.wrap(mMovieModel));
