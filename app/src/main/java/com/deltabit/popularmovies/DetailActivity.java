@@ -1,21 +1,16 @@
 package com.deltabit.popularmovies;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -23,11 +18,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-import com.deltabit.popularmovies.adapters.CustomFragmentPagerAdapter;
+import com.deltabit.popularmovies.adapters.DetailsFragmentPagerAdapter;
 import com.deltabit.popularmovies.data.MovieContract;
 import com.deltabit.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.deltabit.popularmovies.model.MovieModel;
@@ -52,7 +46,7 @@ public class DetailActivity extends AppCompatActivity implements
     private static final float SCREEN_PERCENTAGE = 0.85f;
     GradientDrawable mOval;
     private ActivityMovieDetailBinding mBinding;
-    private CustomFragmentPagerAdapter mAdapter;
+    private DetailsFragmentPagerAdapter mAdapter;
     private boolean mIsFabHidden;
     private int mMaxScrollSize;
     private boolean mDidAnimateEnter = false;
@@ -86,7 +80,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     private void setupViewPager(MovieModel mMovieModel) {
-        mAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
+        mAdapter = new DetailsFragmentPagerAdapter(getSupportFragmentManager());
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(MOVIE_MODEL_BUNDLE, Parcels.wrap(mMovieModel));
