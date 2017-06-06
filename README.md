@@ -7,7 +7,13 @@ This is an Android app that fetches provides movie data from themoviedb. It was 
 - Constraint Layouts, parallaxing.
 
 ## Screenshots
-_TODO_
+![animation](https://raw.githubusercontent.com/mtsalenc/PopularMovies/master/screenshots/animation.gif)
+![animation](https://raw.githubusercontent.com/mtsalenc/PopularMovies/master/screenshots/Screenshot_1496710414.png)
+![animation](https://raw.githubusercontent.com/mtsalenc/PopularMovies/master/screenshots/Screenshot_1496710319.png)
+![animation](https://raw.githubusercontent.com/mtsalenc/PopularMovies/master/screenshots/Screenshot_1496710325.png)
+![animation](https://raw.githubusercontent.com/mtsalenc/PopularMovies/master/screenshots/Screenshot_1496710336.png)
+![animation](https://raw.githubusercontent.com/mtsalenc/PopularMovies/master/screenshots/Screenshot_1496710349.png)
+![animation](https://raw.githubusercontent.com/mtsalenc/PopularMovies/master/screenshots/Screenshot_1496710377.png)
 ## Libraries Used
 
 * [Butterknife](https://github.com/JakeWharton/butterknife) - Bind Android views and callbacks.
