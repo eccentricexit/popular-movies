@@ -2,7 +2,7 @@
 This is an Android app that fetches provides movie data from themoviedb. It was built for educational purposes as part of Udacity's Android Nanodegree Program.
 ## Features
 - Implements Content Providers and SQLite
-- Syncs with the REST API in a battery-friendly.
+- Syncs with the REST API in a battery-friendly manner.
 - Makes use of various libraries for decent UX. Animations, transitions and content-based material color palletes.
 - Constraint Layouts, parallaxing.
 
